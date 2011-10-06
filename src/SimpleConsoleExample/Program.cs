@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
+//using System.Threading.Tasks.Dataflow;
+using System.Collections.Generic;
+using InlineScheduler;
 
 namespace SimpleConsoleExample
 {
@@ -10,46 +13,28 @@ namespace SimpleConsoleExample
     {
         static void Main(string[] args)
         {
-        }
-    }
-
-    public class Scheduler
-    {
-        //private readonly ConcurrentBag<WorkState> _state = new ConcurrentBag<WorkState>();
-        private readonly ConcurrentBag<WorkDef>  _defs = new ConcurrentBag<WorkDef>();
-        //private readonly ActionBlock<WorkItem> _queue = new ActionBlock<WorkItem>(i => i.Factory(), new ExecutionDataflowBlockOptions
-        //       {
-        //           MaxDegreeOfParallelism = 8
-        //       });
-        
-
-        public void Start()
-        {
-            foreach (var def in _defs)
-            {
-                Task.Factory.StartNew(() =>
+            var scheduler = new Scheduler();            
+            scheduler.Schedule("Foo1", () => {
+                return Task.Factory.StartNew(() =>
                 {
-
+                    Console.WriteLine("Foo1 Started");
+                    Thread.Sleep(10000);
+                    Console.WriteLine("Foo1 Conpleted");
                 });
-            }
-        }
+            });
 
-        //private class WorkState
-        //{
-        //    public string WorkKey { get; set; }
-        //    public DateTime LastCompleteTime { get; set; }
-        //}
+            scheduler.Schedule("Foo2", () =>
+            {
+                return Task.Factory.StartNew(() =>
+                {
+                    Console.WriteLine("Foo2 Started");
+                    Thread.Sleep(30000);
+                    Console.WriteLine("Foo2 Conpleted");
+                });
+            });
 
-        private class WorkDef
-        {
-            public Func<Task> Factory { get; set; }
-            public string WorkKey { get; set; }
+
+            Console.ReadLine();
         }
-        
-        //private class WorkItem
-        //{
-        //    public Func<Task> Factory { get; set; }
-        //    public string WorkKey { get; set; }
-        //}
-    }    
+    }   
 }

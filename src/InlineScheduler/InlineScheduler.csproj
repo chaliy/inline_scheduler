@@ -30,9 +30,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />    
+    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -41,8 +41,13 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>    
+    </Compile>
+    <Compile Include="Advanced\WorkBag.cs" />
+    <Compile Include="Advanced\WorkDef.cs" />
+    <Compile Include="Advanced\WorkStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduler.cs" />
+    <Compile Include="SchedulerStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
