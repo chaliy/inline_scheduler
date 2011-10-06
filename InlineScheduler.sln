@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InlineScheduler", "src\Inli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "src\Tests\Tests.csproj", "{F2A863EC-DE60-4368-B996-8D6CCA00E618}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleExample", "src\SimpleConsoleExample\SimpleConsoleExample.csproj", "{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,7 +18,7 @@ Global
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
 	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution				
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -35,8 +39,21 @@ Global
 		{F2A863EC-DE60-4368-B996-8D6CCA00E618}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F2A863EC-DE60-4368-B996-8D6CCA00E618}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{F2A863EC-DE60-4368-B996-8D6CCA00E618}.Release|x86.ActiveCfg = Release|Any CPU		
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Debug|x86.ActiveCfg = Debug|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Debug|x86.Build.0 = Debug|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|Any CPU.ActiveCfg = Release|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|x86.ActiveCfg = Release|x86
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection	
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
+	EndGlobalSection
 EndGlobal
