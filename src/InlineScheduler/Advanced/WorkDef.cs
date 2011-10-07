@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace InlineScheduler.Advanced
@@ -15,7 +13,7 @@ namespace InlineScheduler.Advanced
         private bool _forced;
         private DateTime? _lastStart;
         private DateTime? _lastComplete;
-        private List<WorkRun> _previousRuns = new List<WorkRun>();
+        private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
 
         public WorkDef(string workKey, Func<Task> factory)
         {
@@ -32,7 +30,6 @@ namespace InlineScheduler.Advanced
         public DateTime? LastStart { get { return _lastStart; } }
         public DateTime? LastComplete { get { return _lastComplete; } }
         public List<WorkRun> PreviousRuns { get { return _previousRuns; } }
-
 
         public bool IsApplicableToRun
         {

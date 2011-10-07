@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using InlineScheduler.Advanced;
 using System.Threading.Tasks;
 using System.Threading;
@@ -41,9 +39,9 @@ namespace InlineScheduler
             });
         }
 
-        public void Schedule(string workKey, Func<Task> factory)
+        public void Schedule(string workKey, Func<Task> factory, TimeSpan interval)
         {
-            _work.Add(workKey, factory);
+            _work.Add(workKey, factory, interval);
         }
 
         public void Force(string workKey)

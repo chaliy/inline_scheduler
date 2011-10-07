@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-//using System.Threading.Tasks.Dataflow;
-using System.Collections.Generic;
 using InlineScheduler;
 
 namespace SimpleConsoleExample
@@ -23,16 +19,16 @@ namespace SimpleConsoleExample
                     return Task.Factory.StartNew(() =>
                     {
                         Console.WriteLine(id + " Started");
-                        for (int a = 0; a < 10000 + random.Next(); a++)
+                        for (var a = 0; a < 10000 + random.Next(); a++)
                         {
                             Thread.Sleep(1);
                         }
                         Console.WriteLine(id + " Completed");
                     });
-                });
+                }, TimeSpan.FromMinutes(3));
             }
             
-            Console.WriteLine("S - to get starts, enything else to exit.");
+            Console.WriteLine("S - to get starts, anything else to exit.");
             while(true)
             {
                 var key = Console.ReadKey();
