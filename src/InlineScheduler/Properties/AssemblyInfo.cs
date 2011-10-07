@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("InlineScheduler")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Simple in proc scheduler for your tasks, leverages on TPL")]
 
 [assembly: ComVisible(false)]
 

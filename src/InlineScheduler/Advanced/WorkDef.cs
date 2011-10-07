@@ -58,22 +58,29 @@ namespace InlineScheduler.Advanced
                     _forced = false;
                     _lastComplete = DateTime.Now;
 
-                    _previousRuns.Add(new WorkRun
-                    {
-                        Started = _lastStart.Value,
-                        Completed = _lastComplete.Value
-                    });
-
+                    var run = new WorkRun
+                                  {
+                                      Started = _lastStart.Value,
+                                      Completed = _lastComplete.Value
+                                  };
+                    
                     if (t.Status == TaskStatus.Faulted)
-                    {
+                    {                        
                         var ex = t.Exception.Flatten().GetBaseException();
+
+                        run.Result = WorkRunResult.Faiulure;
+                        run.ResultMessage = ex.ToString();
+
                         // We need to log this out.
                         //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
-                        //throw ex;
                     }
                     else if (t.Status == TaskStatus.RanToCompletion)
                     {
+                        run.Result = WorkRunResult.Success;
                     }
+
+                    _previousRuns.Add(run);
+
                 });
             }, TaskCreationOptions.LongRunning)
             ;

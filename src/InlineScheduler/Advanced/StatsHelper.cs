@@ -19,7 +19,9 @@ namespace InlineScheduler.Advanced
                     PreviousRuns = x.PreviousRuns.Select(xx => new SchedulerJobRunStats 
                     {
                         Started = xx.Started,
-                        Completed = xx.Completed
+                        Completed = xx.Completed,
+                        Result = (SchedulerJobRunResult)xx.Result,
+                        ResultMessage = xx.ResultMessage
                     }).ToList()
                 }).ToList();
 
