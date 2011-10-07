@@ -13,27 +13,38 @@ namespace SimpleConsoleExample
     {
         static void Main(string[] args)
         {
-            var scheduler = new Scheduler();            
-            scheduler.Schedule("Foo1", () => {
-                return Task.Factory.StartNew(() =>
-                {
-                    Console.WriteLine("Foo1 Started");
-                    Thread.Sleep(10000);
-                    Console.WriteLine("Foo1 Conpleted");
-                });
-            });
-
-            scheduler.Schedule("Foo2", () =>
+            var scheduler = new Scheduler();
+            var random = new Random();
+            for (var i = 0; i < 1000; i++)
             {
-                return Task.Factory.StartNew(() =>
-                {
-                    Console.WriteLine("Foo2 Started");
-                    Thread.Sleep(30000);
-                    Console.WriteLine("Foo2 Conpleted");
+                var id = "Foo" + i;
+                scheduler.Schedule(id, () =>
+                {                    
+                    return Task.Factory.StartNew(() =>
+                    {
+                        Console.WriteLine(id + " Started");
+                        for (int a = 0; a < 10000 + random.Next(); a++)
+                        {
+                            Thread.Sleep(1);
+                        }
+                        Console.WriteLine(id + " Completed");
+                    });
                 });
-            });
-
-            Console.ReadLine();                   
+            }
+            
+            Console.WriteLine("S - to get starts, enything else to exit.");
+            while(true)
+            {
+                var key = Console.ReadKey();
+                if (key.Key == ConsoleKey.S)
+                {
+                    Console.WriteLine("tats>> " + scheduler.Stats);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }   
 }

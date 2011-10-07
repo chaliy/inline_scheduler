@@ -23,6 +23,7 @@ namespace InlineScheduler.Advanced
         public IList<WorkDef> GetApplicableToRun()
         {
             return _defs
+                    .Reverse() // WTF? This is temporary, untill we do not have priority stuff
                     .Where(x => x.IsApplicableToRun)
                     .Take(20)
                     .ToList();
@@ -31,7 +32,7 @@ namespace InlineScheduler.Advanced
         public void Add(string workKey, Func<Task> factory)
         {
             if (!_defs.Any(x => x.WorkKey == workKey))
-            {
+            {                
                 _defs.Add(new WorkDef(workKey, factory));
             }
         }        

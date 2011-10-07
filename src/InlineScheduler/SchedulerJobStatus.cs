@@ -9,6 +9,7 @@ namespace InlineScheduler
     {
         Pending,
         Paused,
+        Scheduled,
         Running
     }               
 }

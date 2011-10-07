@@ -11,5 +11,10 @@ namespace InlineScheduler
         public int RunningJobs { get; set; }
 
         public List<SchedulerJobStats> CurrentJobs { get; set; }
+
+        public override string ToString()
+        {
+            return "Pending: " + PendingJobs + "; Running: " + RunningJobs + "; Current: " + CurrentJobs.Count;            
+        }
     }
 }

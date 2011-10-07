@@ -50,31 +50,36 @@ namespace InlineScheduler.Advanced
                 // Do nothing. Work is already started.
                 return;
             }
-            _status = WorkStatus.Running;
-            _lastStart = DateTime.Now;
-            Factory().ContinueWith(t =>
+            _status = WorkStatus.Scheduled;
+            Task.Factory.StartNew(() => 
             {
-                _status = WorkStatus.Pending;
-                _forced = false;
-                _lastComplete = DateTime.Now;
-
-                _previousRuns.Add(new WorkRun 
+                _status = WorkStatus.Running;
+                _lastStart = DateTime.Now;
+                return Factory().ContinueWith(t =>
                 {
-                    Started = _lastStart.Value,
-                    Completed = _lastComplete.Value
+                    _status = WorkStatus.Pending;
+                    _forced = false;
+                    _lastComplete = DateTime.Now;
+
+                    _previousRuns.Add(new WorkRun
+                    {
+                        Started = _lastStart.Value,
+                        Completed = _lastComplete.Value
+                    });
+
+                    if (t.Status == TaskStatus.Faulted)
+                    {
+                        var ex = t.Exception.Flatten().GetBaseException();
+                        // We need to log this out.
+                        //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
+                        //throw ex;
+                    }
+                    else if (t.Status == TaskStatus.RanToCompletion)
+                    {
+                    }
                 });
-
-                if (t.Status == TaskStatus.Faulted)
-                {
-                    var ex = t.Exception.Flatten().GetBaseException();
-                    // We need to log this out.
-                    //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
-                    //throw ex;
-                }
-                else if (t.Status == TaskStatus.RanToCompletion)
-                {
-                }
-            });
+            }, TaskCreationOptions.LongRunning)
+            ;
         }
 
         public void Force()

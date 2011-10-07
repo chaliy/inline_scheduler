@@ -9,6 +9,7 @@ namespace InlineScheduler.Advanced
     {
         Pending,
         Paused,
+        Scheduled,
         Running
     }               
 }

@@ -35,7 +35,7 @@ namespace InlineScheduler
 
                     if (applicableDefs.Count == 0)
                     {
-                        Thread.Sleep(10000);
+                        Thread.Sleep(1000);
                     }
                 }
             });
