@@ -16,23 +16,7 @@ namespace InlineScheduler
         {
             get
             {
-                var stats = new SchedulerStats();
-
-                foreach (var group in _work.GroupBy(x => x.Status))
-                {
-                    switch (group.Key)
-                    {
-                        case WorkStatus.Pending:
-                            stats.PendingJobs = group.Count();
-                            break;
-
-                        case WorkStatus.Running:
-                            stats.RunningJobs = group.Count();
-                            break;
-                    }
-                }
-
-                return stats;
+                return StatsHelper.GatherOveralStatistics(_work);
             }
         }
 

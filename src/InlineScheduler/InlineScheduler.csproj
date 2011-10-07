@@ -33,6 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reactive">
+      <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -42,12 +45,17 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\WorkRun.cs" />
+    <Compile Include="Advanced\StatsHelper.cs" />
     <Compile Include="Advanced\WorkBag.cs" />
     <Compile Include="Advanced\WorkDef.cs" />
     <Compile Include="Advanced\WorkStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs" />
+    <Compile Include="SchedulerJobRunStats.cs" />
+    <Compile Include="SchedulerJobStats.cs" />
     <Compile Include="SchedulerStats.cs" />
+    <Compile Include="SchedulerJobStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

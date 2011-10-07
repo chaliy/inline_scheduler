@@ -33,8 +33,7 @@ namespace SimpleConsoleExample
                 });
             });
 
-
-            Console.ReadLine();
+            Console.ReadLine();                   
         }
     }   
 }

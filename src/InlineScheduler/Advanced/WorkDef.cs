@@ -13,7 +13,9 @@ namespace InlineScheduler.Advanced
 
         private WorkStatus _status;
         private bool _forced;
-        private DateTime lastComplete;
+        private DateTime? _lastStart;
+        private DateTime? _lastComplete;
+        private List<WorkRun> _previousRuns = new List<WorkRun>();
 
         public WorkDef(string workKey, Func<Task> factory)
         {
@@ -27,6 +29,9 @@ namespace InlineScheduler.Advanced
 
         public TimeSpan Interval { get; set; }
         public WorkStatus Status { get { return _status; } }
+        public DateTime? LastStart { get { return _lastStart; } }
+        public DateTime? LastComplete { get { return _lastComplete; } }
+        public List<WorkRun> PreviousRuns { get { return _previousRuns; } }
 
 
         public bool IsApplicableToRun
@@ -34,31 +39,42 @@ namespace InlineScheduler.Advanced
             get
             {
                 return Status == WorkStatus.Pending
-                    && (DateTime.Now > (lastComplete + Interval)
-                        || _forced);
+                    && (DateTime.Now > (_lastComplete.GetValueOrDefault() + Interval) || _forced);
             }
         }
 
         public void Run()
         {
+            if (_status != WorkStatus.Pending) 
+            {
+                // Do nothing. Work is already started.
+                return;
+            }
             _status = WorkStatus.Running;
-            Factory()
-                .ContinueWith(t =>
-                {
-                    _status = WorkStatus.Pending;
-                    _forced = false;
-                    lastComplete = DateTime.Now;
+            _lastStart = DateTime.Now;
+            Factory().ContinueWith(t =>
+            {
+                _status = WorkStatus.Pending;
+                _forced = false;
+                _lastComplete = DateTime.Now;
 
-                    if (t.Status == TaskStatus.Faulted)
-                    {
-                        var ex = t.Exception.Flatten().GetBaseException();
-                        //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
-                        //throw ex;
-                    }
-                    else if (t.Status == TaskStatus.RanToCompletion)
-                    {
-                    }
+                _previousRuns.Add(new WorkRun 
+                {
+                    Started = _lastStart.Value,
+                    Completed = _lastComplete.Value
                 });
+
+                if (t.Status == TaskStatus.Faulted)
+                {
+                    var ex = t.Exception.Flatten().GetBaseException();
+                    // We need to log this out.
+                    //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
+                    //throw ex;
+                }
+                else if (t.Status == TaskStatus.RanToCompletion)
+                {
+                }
+            });
         }
 
         public void Force()

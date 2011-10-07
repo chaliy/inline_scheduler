@@ -9,5 +9,7 @@ namespace InlineScheduler
     {
         public int PendingJobs { get; set; }
         public int RunningJobs { get; set; }
+
+        public List<SchedulerJobStats> CurrentJobs { get; set; }
     }
 }
