@@ -86,6 +86,7 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\Service\Content\Accessor.cs" />
     <Compile Include="Advanced\Service\SchedulerService.cs" />
     <Compile Include="Advanced\Service\Temp\JsonNetFormatter.cs" />
     <Compile Include="InlineSchedulerServer.cs" />
@@ -100,7 +101,13 @@
       <Name>InlineScheduler</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\css\style.css" />
+    <EmbeddedResource Include="Advanced\Service\Content\index.html" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\app.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

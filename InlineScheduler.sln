@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "src\Server\Server.csproj", "{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebExample", "src\SimpleWebExample\SimpleWebExample.csproj", "{C973524E-7D2C-4248-AA77-FB5B9920C86B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,11 +63,22 @@ Global
 		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
 	EndGlobalSection
 EndGlobal

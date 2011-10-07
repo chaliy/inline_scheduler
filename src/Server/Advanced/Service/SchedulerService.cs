@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using System.Net.Http;
+using InlineScheduler.Server.Advanced.Service.Content;
 
 namespace InlineScheduler.Server.Advanced.Service
 {
@@ -16,7 +18,14 @@ namespace InlineScheduler.Server.Advanced.Service
             _scheduler = scheduler;
         }
 
-        [WebInvoke(Method = "GET", UriTemplate = "Stats")]
+        // Static stuff
+        [WebGet(UriTemplate = "/{*path}")]
+        public HttpResponseMessage Get(string path = "index.html")
+        {
+            return Accessor.Get(path);
+        }
+
+        [WebGet(UriTemplate = "Stats")]
         public SchedulerStats PostScheduled()
         {
             return _scheduler.Stats;

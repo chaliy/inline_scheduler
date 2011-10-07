@@ -17,8 +17,10 @@ namespace InlineScheduler.Server
             }
            
         	var config = new HttpConfiguration();
-            config.CreateInstance = (t, c, m) => new SchedulerService(scheduler);
+            config.CreateInstance = (t, c, m) => new SchedulerService(scheduler);            
 
+            config.Formatters.Remove(config.Formatters.JsonFormatter);
+            config.Formatters.Remove(config.Formatters.JsonValueFormatter);            
             config.Formatters.Insert(0, new JsonNetFormatter());
 
             RouteTable.Routes.MapServiceRoute<SchedulerService>(prefix, config);

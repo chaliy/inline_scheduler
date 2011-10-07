@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using Microsoft.ApplicationServer.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
+using Newtonsoft.Json.Converters;
 
 namespace WebApiContrib.Formatters.JsonNet
 {
@@ -23,61 +24,42 @@ namespace WebApiContrib.Formatters.JsonNet
     /// Darrel Miller
     ///     - Converted to Preview 4 MediaTypeFormatter
     /// </remarks>
-    public class JsonNetFormatter : MediaTypeFormatter
-    {
-        private bool usesQueryComposition = false;
-
+    public class JsonNetFormatter : JsonMediaTypeFormatter
+    {        
         public JsonNetFormatter()
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/json"));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/bson"));
-
-            // Operation is no longer available, so I'm not sure how this is going to be supported
-            //this.usesQueryComposition = operation.Behaviors.Contains(typeof(QueryCompositionAttribute));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));                        
         }
 
         protected override object OnReadFromStream(Type type, Stream stream, HttpContentHeaders contentHeaders)
         {
-            var serializer = new JsonSerializer();
-            var reader = default(JsonReader);
-
-            if (contentHeaders.ContentType.MediaType == "application/bson")
-                reader = new BsonReader(stream);
-            else
-                reader = new JsonTextReader(new StreamReader(stream));
-
+            var serializer = CreateSerializer();
+            var reader = new JsonTextReader(new StreamReader(stream));
+            
             var result = serializer.Deserialize(reader, type);
 
             return result;
-        }
+        }        
 
         protected override void OnWriteToStream(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, TransportContext context)
         {
-
-            var serializer = new JsonSerializer { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            var serializer = CreateSerializer();
             // NOTE: we don't dispose or close these as they would 
             // close the stream, which is used by the rest of the pipeline.
-            var writer = default(JsonWriter);
-
-            if (contentHeaders.ContentType.MediaType == "application/bson")
-                writer = new BsonWriter(stream);
-            else
-                writer = new JsonTextWriter(new StreamWriter(stream));
-
-            if (this.usesQueryComposition)
-            {
-                serializer.Serialize(writer, ((IEnumerable)value).OfType<object>().ToList());
-            }
-            else
-            {
-                serializer.Serialize(writer, value);
-            }
-
+            var writer = new JsonTextWriter(new StreamWriter(stream));                
+            
+            serializer.Serialize(writer, value);            
             writer.Flush();
 
         }
 
-
+        private static JsonSerializer CreateSerializer()
+        {
+            var serializer = new JsonSerializer { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            serializer.Converters.Add(new StringEnumConverter());
+            serializer.Converters.Add(new IsoDateTimeConverter());
+            return serializer;
+        }
     }
 }
