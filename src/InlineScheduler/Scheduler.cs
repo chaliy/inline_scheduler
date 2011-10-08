@@ -24,26 +24,32 @@ namespace InlineScheduler
             {
                 while (true)
                 {
-                    var applicableDefs = _work.GetApplicableToRun();
+                    _work.UpdateScheduledStatus();
+                    var runningCount = _work.GetRuningWork();
 
-                    foreach (var def in applicableDefs)
+                    if (runningCount < 20)
                     {
-                        def.Run();
-                    }
+                        var applicableDefs = _work.GetApplicableToRun(20);
 
-                    if (applicableDefs.Count == 0)
-                    {
-                        Thread.Sleep(1000);
-                    }
+                        foreach (var def in applicableDefs)
+                        {
+                            def.Run();
+                        }
+                    }                    
+                    
+                    Thread.Sleep(1000);
                 }
             });
         }
-
+        
         public void Schedule(string workKey, Func<Task> factory, TimeSpan interval)
         {
             _work.Add(workKey, factory, interval);
         }
 
+        /// <summary>
+        ///     Forces work item to run.
+        /// </summary>
         public void Force(string workKey)
         {
             var def = _work.FirstOrDefault(x => x.WorkKey == workKey);

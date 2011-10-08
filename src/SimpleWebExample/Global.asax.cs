@@ -18,7 +18,7 @@ namespace SimpleWebExample
         protected void Application_Start(object sender, EventArgs e)
         {
             var random = new Random();
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < 100; i++)
             {
                 var id = "Foo" + i;
                 Instance.Schedule(id, () =>

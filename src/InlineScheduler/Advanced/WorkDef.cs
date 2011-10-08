@@ -42,53 +42,55 @@ namespace InlineScheduler.Advanced
 
         public void Run()
         {
-            if (_status != WorkStatus.Pending) 
+            if (_status != WorkStatus.Scheduled) 
             {
                 // Do nothing. Work is already started.
                 return;
-            }
-            _status = WorkStatus.Scheduled;
-            Task.Factory.StartNew(() => 
+            }            
+            _status = WorkStatus.Running;
+            _lastStart = DateTime.Now;
+            Factory().ContinueWith(t =>
             {
-                _status = WorkStatus.Running;
-                _lastStart = DateTime.Now;
-                return Factory().ContinueWith(t =>
-                {
-                    _status = WorkStatus.Pending;
-                    _forced = false;
-                    _lastComplete = DateTime.Now;
+                _status = WorkStatus.Pending;
+                _forced = false;
+                _lastComplete = DateTime.Now;                
 
-                    var run = new WorkRun
-                                  {
-                                      Started = _lastStart.Value,
-                                      Completed = _lastComplete.Value
-                                  };
+                var run = new WorkRun
+                                {
+                                    Started = _lastStart.Value,
+                                    Completed = _lastComplete.Value
+                                };
                     
-                    if (t.Status == TaskStatus.Faulted)
-                    {                        
-                        var ex = t.Exception.Flatten().GetBaseException();
+                if (t.Status == TaskStatus.Faulted)
+                {                        
+                    var ex = t.Exception.Flatten().GetBaseException();
 
-                        run.Result = WorkRunResult.Faiulure;
-                        run.ResultMessage = ex.ToString();
+                    run.Result = WorkRunResult.Faiulure;
+                    run.ResultMessage = ex.ToString();
 
-                        // We need to log this out.
-                        //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
-                    }
-                    else if (t.Status == TaskStatus.RanToCompletion)
-                    {
-                        run.Result = WorkRunResult.Success;
-                    }
+                    // We need to log this out.
+                    //_trace.Value.Error("Command " + cmdKey + " failed to execute.\r\n" + ex.Message, new { Exception = ex, Command = cmd });
+                }
+                else if (t.Status == TaskStatus.RanToCompletion)
+                {
+                    run.Result = WorkRunResult.Success;
+                }
 
-                    _previousRuns.Add(run);
-
-                });
-            }, TaskCreationOptions.LongRunning)
-            ;
+                _previousRuns.Add(run);
+            });                         
         }
 
         public void Force()
         {
             _forced = true;
+        }
+
+        public void UpdateScheduledStatus()
+        {
+            if (IsApplicableToRun)
+            {
+                _status = WorkStatus.Scheduled;
+            }
         }
     }
 }

@@ -105,8 +105,9 @@
     <EmbeddedResource Include="Advanced\Service\Content\css\style.css" />
     <EmbeddedResource Include="Advanced\Service\Content\index.html" />
     <EmbeddedResource Include="Advanced\Service\Content\js\app.js" />
-    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.js" />
-    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Advanced\Service\Content\js\vendor\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

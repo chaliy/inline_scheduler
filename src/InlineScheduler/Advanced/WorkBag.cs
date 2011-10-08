@@ -20,13 +20,26 @@ namespace InlineScheduler.Advanced
             return this.GetEnumerator();
         }
 
-        public IList<WorkDef> GetApplicableToRun()
+        public IList<WorkDef> GetApplicableToRun(int page)
         {
             return _defs
                     .Reverse() // WTF? This is temporary, until we do not have priority stuff
-                    .Where(x => x.IsApplicableToRun)
-                    .Take(20)
+                    .Where(x => x.Status == WorkStatus.Scheduled)
+                    .Take(page)
                     .ToList();
+        }
+
+        public void UpdateScheduledStatus() 
+        {
+            foreach(var def in _defs.Where(x => x.Status == WorkStatus.Pending))
+            {
+                def.UpdateScheduledStatus();                
+            }
+        }
+
+        public int GetRuningWork()
+        {
+            return _defs.Count(x => x.Status == WorkStatus.Running);                    
         }
 
         public void Add(string workKey, Func<Task> factory, TimeSpan interval)
