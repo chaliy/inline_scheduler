@@ -1,6 +1,6 @@
 ﻿/*jslint onevar: true, undef: true, newcap: true, regexp: true, plusplus: true, bitwise: true, devel: true, maxerr: 50 */
 /*global window: true, jQuery:true, $:true, document:true*/
-/// <reference path="vendor/jquery/1.5.1/jquery.js"/>
+/// <reference path="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"/>
 $(function () {
 
     // Error
@@ -15,14 +15,22 @@ $(function () {
             context: document.body,
             dataType: "json",
             cache: false,
-            progress: true,
             success: function (data, status, xhr) {
                 var content = $("#command-list-template").tmpl(data);
                 mainPanel.empty();
                 mainPanel.append(content);
+                $(".force-work-btn").click(function (btn) {
+                    forceWork($(btn.srcElement).data("work-key"));
+                });
             }
         });
     };
+
+    function forceWork(workKey) {
+        $.post('Work/' + workKey + "/Force", function () {
+            refreshStats();
+        });
+    }
 
     $('#refresh-stats-btn').click(function () {
         refreshStats();

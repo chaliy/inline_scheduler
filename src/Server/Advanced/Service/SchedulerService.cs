@@ -30,5 +30,11 @@ namespace InlineScheduler.Server.Advanced.Service
         {
             return _scheduler.Stats;
         }
+
+        [WebInvoke(Method = "POST", UriTemplate = "Work/{workKey}/Force")]
+        public void Force(string workKey)
+        {
+            _scheduler.Force(workKey);
+        }
     }
 }

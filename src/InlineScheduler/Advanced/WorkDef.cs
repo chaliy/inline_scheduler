@@ -9,8 +9,7 @@ namespace InlineScheduler.Advanced
         private readonly string _workKey;
         private readonly Func<Task> _factory;
 
-        private WorkStatus _status;
-        private bool _forced;
+        private WorkStatus _status;        
         private DateTime? _lastStart;
         private DateTime? _lastComplete;
         private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
@@ -30,16 +29,7 @@ namespace InlineScheduler.Advanced
         public DateTime? LastStart { get { return _lastStart; } }
         public DateTime? LastComplete { get { return _lastComplete; } }
         public List<WorkRun> PreviousRuns { get { return _previousRuns; } }
-
-        public bool IsApplicableToRun
-        {
-            get
-            {
-                return Status == WorkStatus.Pending
-                    && (DateTime.Now > (_lastComplete.GetValueOrDefault() + Interval) || _forced);
-            }
-        }
-
+        
         public void Run()
         {
             if (_status != WorkStatus.Scheduled) 
@@ -51,8 +41,7 @@ namespace InlineScheduler.Advanced
             _lastStart = DateTime.Now;
             Factory().ContinueWith(t =>
             {
-                _status = WorkStatus.Pending;
-                _forced = false;
+                _status = WorkStatus.Pending;                
                 _lastComplete = DateTime.Now;                
 
                 var run = new WorkRun
@@ -82,12 +71,12 @@ namespace InlineScheduler.Advanced
 
         public void Force()
         {
-            _forced = true;
+            _status = WorkStatus.Scheduled;
         }
 
         public void UpdateScheduledStatus()
-        {
-            if (IsApplicableToRun)
+        {            
+            if (DateTime.Now > (_lastComplete.GetValueOrDefault() + Interval))
             {
                 _status = WorkStatus.Scheduled;
             }
