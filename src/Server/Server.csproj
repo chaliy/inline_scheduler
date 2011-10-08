@@ -106,9 +106,7 @@
     <EmbeddedResource Include="Advanced\Service\Content\index.html" />
     <EmbeddedResource Include="Advanced\Service\Content\js\app.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Advanced\Service\Content\js\vendor\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

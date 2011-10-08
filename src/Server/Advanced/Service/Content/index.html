@@ -24,23 +24,58 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 	<script src="js/app.js"></script>	
-    <script id="command-list-template" type="text/x-jquery-tmpl">		
+    <script type="text/javascript">
+        function formateToTime(inp) {
+            // WTF need something to work with dates in javascript
+            // From https://github.com/coolaj86/javascript-date/blob/master/date.js
+            var pattern = /^(\d{4})(-(\d{2})(-(\d{2})(T(\d{2}):(\d{2})(:(\d{2})(\.(\d+))?)?(Z|((\+|-)(\d{2}):(\d{2}))))?)?)?$/;
+            var match = pattern.exec(inp);
+
+            if (null === match) {
+                return "N/A";
+            }
+            
+            var hours = match[7] >> 0;
+            var minutes = match[8] >> 0;
+            var seconds = match[10] >> 0;
+
+            return hours + ":" + minutes + ":" + seconds;
+        }
+    </script>
+    <script id="job-list-tmpl" type="text/x-jquery-tmpl">		
     Pending: ${PendingJobs}
     Scheduled: ${ScheduledJobs}
     Running: ${RunningJobs}    
     <table class="zebra-striped">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Status</th>
+            <th>Last Run</th>            
+            <th>Repoort</th>            
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
     <tbody>        
     {{each CurrentJobs}}
         <tr>
             <td>${$value.WorkKey}</td>
             <td>${$value.CurrentStatus}</td>
-            <td>${$value.LastRunStarted}</td>
-            <td>${$value.LastRunCompleted}</td>
+            <td>${formateToTime($value.LastRunStarted)}-${formateToTime($value.LastRunCompleted)}</td>
+            <td>{{tmpl($value) "#job-report-tmpl"}}</td>            
             <td><a class="force-work-btn btn primary" data-work-key="${$value.WorkKey}" >Force</a></td>
         </tr>
 	{{/each}}
     </tbody>
     </table>
+    </script>
+    <script id="job-report-tmpl" type="text/x-jquery-tmpl">		     
+    <dl>
+    {{each PreviousRuns}}
+        <dt>${$value.Result}</dt>           
+        <dd><em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em><br/>${$value.ResultMessage}</dd>        
+	{{/each}}
+    </dl>    
     </script>
 
 </body>

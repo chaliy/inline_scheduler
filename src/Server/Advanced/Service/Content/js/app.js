@@ -16,9 +16,11 @@ $(function () {
             dataType: "json",
             cache: false,
             success: function (data, status, xhr) {
-                var content = $("#command-list-template").tmpl(data);
+
+                var content = $("#job-list-tmpl").tmpl(data);
                 mainPanel.empty();
                 mainPanel.append(content);
+
                 $(".force-work-btn").click(function (btn) {
                     forceWork($(btn.srcElement).data("work-key"));
                 });
