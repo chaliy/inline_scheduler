@@ -8,14 +8,25 @@ $(function () {
         alert(xhr.responseText);
     });
 
-    $.ajax({
-        url: "Stats?v=1",
-        context: document.body,
-        dataType: "json",
-        cache: false,
-        success: function (data, status, xhr) {            
-            var content = $("#command-list-template").tmpl(data);
-            $("#main").replaceWith(content);
-        }
-    });
+    var mainPanel = $("#main");
+    function refreshStats() {
+        $.ajax({
+            url: "Stats?v=1",
+            context: document.body,
+            dataType: "json",
+            cache: false,
+            progress: true,
+            success: function (data, status, xhr) {
+                var content = $("#command-list-template").tmpl(data);
+                mainPanel.empty();
+                mainPanel.append(content);
+            }
+        });
+    };
+
+    $('#refresh-stats-btn').click(function () {
+        refreshStats();
+    })
+
+    refreshStats();
 }); 
