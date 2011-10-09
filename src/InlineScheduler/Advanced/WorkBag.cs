@@ -46,7 +46,7 @@ namespace InlineScheduler.Advanced
         {
             if (!_items.Any(x => x.WorkKey == workKey))
             {                
-                _items.Add(new WorkItem(workKey, factory)
+                _items.Add(new WorkItem(new WorkContext(), workKey, factory)
                               {
                                   Interval = interval
                               });

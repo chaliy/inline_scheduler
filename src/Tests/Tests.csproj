@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="FluentAssertions">
       <HintPath>..\..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
-    </Reference>    
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -56,13 +56,17 @@
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>        
-    <Compile Include="Properties\AssemblyInfo.cs" />    
+    </Compile>
+    <Compile Include="Advanced\When_work_item_is_run.cs" />
+    <Compile Include="Advanced\When_work_item_is_ready_to_be_scheduled.cs" />
+    <Compile Include="Advanced\When_create_work_item.cs" />
+    <Compile Include="Advanced\__Utils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>        
+  <ItemGroup>
     <ProjectReference Include="..\InlineScheduler\InlineScheduler.csproj">
       <Project>{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}</Project>
       <Name>InlineScheduler</Name>
