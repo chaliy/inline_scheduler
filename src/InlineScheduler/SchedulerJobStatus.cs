@@ -3,7 +3,7 @@
     public enum SchedulerJobStatus
     {
         Pending,
-        Paused,
+        Holded,
         Scheduled,
         Running
     }               

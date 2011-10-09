@@ -54,7 +54,7 @@ namespace InlineScheduler.Advanced
                 {                        
                     var ex = t.Exception.Flatten().GetBaseException();
 
-                    run.Result = WorkRunResult.Faiulure;
+                    run.Result = WorkRunResult.Failure;
                     run.ResultMessage = ex.ToString();
 
                     // We need to log this out.
@@ -71,7 +71,11 @@ namespace InlineScheduler.Advanced
 
         public void Force()
         {
-            _status = WorkStatus.Scheduled;
+            if (_status == WorkStatus.Pending
+                || _status == WorkStatus.Holded)
+            {
+                _status = WorkStatus.Scheduled;
+            }
         }
 
         public void UpdateScheduledStatus()
@@ -80,6 +84,6 @@ namespace InlineScheduler.Advanced
             {
                 _status = WorkStatus.Scheduled;
             }
-        }
+        }        
     }
 }

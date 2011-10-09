@@ -25,6 +25,10 @@ namespace SimpleWebExample
                 {
                     return Task.Factory.StartNew(() =>
                     {
+                        if (id == "Foo3") 
+                        {
+                            throw new InvalidOperationException("With love from Scheduler");
+                        }
                         Console.WriteLine(id + " Started");
                         for (var a = 0; a < 10000 + random.Next(); a++)
                         {

@@ -9,7 +9,15 @@ $(function () {
     });
 
     var mainPanel = $("#main");
+    var body = $("body");
+    function showProgress() {
+    }
+
+    function hideProgress() {
+    }
+
     function refreshStats() {
+        showProgress();
         $.ajax({
             url: "Stats?v=1",
             context: document.body,
@@ -17,6 +25,7 @@ $(function () {
             cache: false,
             success: function (data, status, xhr) {
 
+                hideProgress();
                 var content = $("#job-list-tmpl").tmpl(data);
                 mainPanel.empty();
                 mainPanel.append(content);
@@ -30,7 +39,7 @@ $(function () {
             }
         });
     };
-    
+
     $("#refresh-stats-btn").click(function () {
         refreshStats();
     })

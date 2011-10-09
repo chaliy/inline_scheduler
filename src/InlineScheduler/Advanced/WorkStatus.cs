@@ -3,7 +3,7 @@
     public enum WorkStatus
     {
         Pending,
-        Paused,
+        Holded,
         Scheduled,
         Running
     }               

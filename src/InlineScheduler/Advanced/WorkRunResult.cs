@@ -4,6 +4,6 @@
     {
         Undefined,
         Success,
-        Faiulure
+        Failure
     }
 }

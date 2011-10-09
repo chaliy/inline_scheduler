@@ -57,7 +57,7 @@
             <th>Key</th>
             <th>Status</th>
             <th>Last Run</th>            
-            <th>Repoort</th>            
+            <th>Report</th>            
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -77,8 +77,17 @@
     <script id="job-report-tmpl" type="text/x-jquery-tmpl">		     
     <dl>
     {{each PreviousRuns}}
-        <dt>${$value.Result}</dt>           
-        <dd><em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em><br/>${$value.ResultMessage}</dd>        
+        {{if $value.Result == "Failure" }}
+        <dt><span class="label important">Important</span>${$value.Result}</dt>
+        {{else}}
+        <dt>${$value.Result}</dt>
+        {{/if}}
+        <dd>
+            <em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em>
+            {{if $value.ResultMessage }}
+            <pre>${$value.ResultMessage}</pre>
+            {{/if}}
+        </dd>        
 	{{/each}}
     </dl>    
     </script>
