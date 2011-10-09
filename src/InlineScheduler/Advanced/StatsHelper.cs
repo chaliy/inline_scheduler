@@ -5,7 +5,7 @@ namespace InlineScheduler.Advanced
 {
     public static class StatsHelper
     {
-        public static SchedulerStats GatherOveralStatistics(IEnumerable<WorkDef> _work)
+        public static SchedulerStats GatherOveralStatistics(IEnumerable<WorkItem> _work)
         {
             var stats = new SchedulerStats();
 

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace InlineScheduler.Advanced
 {
-    public class WorkBag : IEnumerable<WorkDef>
+    public class WorkBag : IEnumerable<WorkItem>
     {
-        private readonly ConcurrentBag<WorkDef> _defs = new ConcurrentBag<WorkDef>();
+        private readonly ConcurrentBag<WorkItem> _items = new ConcurrentBag<WorkItem>();
 
-        public IEnumerator<WorkDef> GetEnumerator()
+        public IEnumerator<WorkItem> GetEnumerator()
         {
-            return _defs.GetEnumerator();
+            return _items.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
@@ -20,33 +20,33 @@ namespace InlineScheduler.Advanced
             return this.GetEnumerator();
         }
 
-        public IList<WorkDef> GetApplicableToRun(int page)
+        public IList<WorkItem> GetApplicableToRun(int page)
         {
-            return _defs
+            return _items
                     .Reverse() // WTF? This is temporary, until we do not have priority stuff
                     .Where(x => x.Status == WorkStatus.Scheduled)
                     .Take(page)
                     .ToList();
         }
 
-        public void UpdateScheduledStatus() 
+        public void UpdateState() 
         {
-            foreach(var def in _defs.Where(x => x.Status == WorkStatus.Pending))
+            foreach(var item in _items)
             {
-                def.UpdateScheduledStatus();                
+                item.UpdateState();                
             }
         }
 
         public int GetRuningWork()
         {
-            return _defs.Count(x => x.Status == WorkStatus.Running);                    
+            return _items.Count(x => x.Status == WorkStatus.Running);                    
         }
 
         public void Add(string workKey, Func<Task> factory, TimeSpan interval)
         {
-            if (!_defs.Any(x => x.WorkKey == workKey))
+            if (!_items.Any(x => x.WorkKey == workKey))
             {                
-                _defs.Add(new WorkDef(workKey, factory)
+                _items.Add(new WorkItem(workKey, factory)
                               {
                                   Interval = interval
                               });

@@ -27,7 +27,7 @@ namespace InlineScheduler
             {
                 while (true)
                 {
-                    _work.UpdateScheduledStatus();
+                    _work.UpdateState();
                     if (!_stopped)
                     {
                         var runningCount = _work.GetRuningWork();

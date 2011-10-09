@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace InlineScheduler.Advanced
 {
-    public class WorkDef
+    public class WorkItem
     {
         private readonly string _workKey;
         private readonly Func<Task> _factory;
@@ -14,7 +14,7 @@ namespace InlineScheduler.Advanced
         private DateTime? _lastComplete;
         private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
 
-        public WorkDef(string workKey, Func<Task> factory)
+        public WorkItem(string workKey, Func<Task> factory)
         {
             _workKey = workKey;
             _factory = factory;
@@ -78,11 +78,19 @@ namespace InlineScheduler.Advanced
             }
         }
 
-        public void UpdateScheduledStatus()
-        {            
-            if (DateTime.Now > (_lastComplete.GetValueOrDefault() + Interval))
+        public void UpdateState()
+        {
+            if (_status == WorkStatus.Pending)
             {
-                _status = WorkStatus.Scheduled;
+                if (DateTime.Now > (_lastComplete.GetValueOrDefault() + Interval))
+                {
+                    _status = WorkStatus.Scheduled;
+                }
+            }
+
+            if (_previousRuns.Count > 5) 
+            {
+                _previousRuns.RemoveRange(0, _previousRuns.Count - 5);
             }
         }        
     }
