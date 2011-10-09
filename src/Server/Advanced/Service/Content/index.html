@@ -18,6 +18,8 @@
 
     <div>
         <a id="refresh-stats-btn" class="btn primary">Refresh</a>
+        <a id="stop-btn" class="btn">Stop</a>
+        <a id="start-btn" class="btn">Start</a>
     </div>
     <div id="main"></div>    
     
@@ -43,6 +45,9 @@
         }
     </script>
     <script id="job-list-tmpl" type="text/x-jquery-tmpl">		
+    {{if IsStopped}}    
+    <strong>Stopped</strong>
+    {{/if}}
     Pending: ${PendingJobs}
     Scheduled: ${ScheduledJobs}
     Running: ${RunningJobs}    

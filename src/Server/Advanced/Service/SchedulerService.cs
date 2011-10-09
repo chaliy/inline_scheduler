@@ -36,5 +36,17 @@ namespace InlineScheduler.Server.Advanced.Service
         {
             _scheduler.Force(workKey);
         }
+
+        [WebInvoke(Method = "POST", UriTemplate = "Stop")]
+        public void Stop()
+        {
+            _scheduler.Stop();
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "Start")]
+        public void Start()
+        {
+            _scheduler.Start();
+        }
     }
 }

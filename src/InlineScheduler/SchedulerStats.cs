@@ -4,6 +4,7 @@ namespace InlineScheduler
 {
     public class SchedulerStats
     {
+        public bool IsStopped { get; set; }
         public int PendingJobs { get; set; }
         public int ScheduledJobs { get; set; }
         public int RunningJobs { get; set; }

@@ -22,20 +22,29 @@ $(function () {
                 mainPanel.append(content);
 
                 $(".force-work-btn").click(function (btn) {
-                    forceWork($(btn.srcElement).data("work-key"));
+                    var workKey = $(btn.srcElement).data("work-key");
+                    $.post("Work/" + workKey + "/Force", function () {
+                        refreshStats();
+                    });
                 });
             }
         });
     };
+    
+    $("#refresh-stats-btn").click(function () {
+        refreshStats();
+    })
 
-    function forceWork(workKey) {
-        $.post('Work/' + workKey + "/Force", function () {
+    $("#stop-btn").click(function () {
+        $.post("Stop", function () {
             refreshStats();
         });
-    }
+    })
 
-    $('#refresh-stats-btn').click(function () {
-        refreshStats();
+    $("#start-btn").click(function () {
+        $.post("Start", function () {
+            refreshStats();
+        });
     })
 
     refreshStats();
