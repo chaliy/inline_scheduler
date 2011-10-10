@@ -39,18 +39,25 @@
             
             var hours = match[7] >> 0;
             var minutes = match[8] >> 0;
-            var seconds = match[10] >> 0;
-
+            var seconds = match[10] >> 0;                       
+            
             return hours + ":" + minutes + ":" + seconds;
+        }
+        function currentTime() {
+            var current = new Date();            
+            return current.toLocaleTimeString();
         }
     </script>
     <script id="job-list-tmpl" type="text/x-jquery-tmpl">		
     {{if IsStopped}}    
     <strong>Stopped</strong>
     {{/if}}
+    <p>
     Pending: ${PendingJobs}
     Scheduled: ${ScheduledJobs}
     Running: ${RunningJobs}    
+    </p>        
+    <em>Last generated at ${currentTime()}</em>
     <table class="zebra-striped">
     <thead>
         <tr>
@@ -91,7 +98,7 @@
         <dd>
             <em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em>
             {{if $value.ResultMessage }}
-            <pre>${$value.ResultMessage}</pre>
+            <pre style="max-width:350px">${$value.ResultMessage}</pre>
             {{/if}}
         </dd>        
 	{{/each}}

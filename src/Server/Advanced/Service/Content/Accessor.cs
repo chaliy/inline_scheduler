@@ -37,6 +37,10 @@ namespace InlineScheduler.Server.Advanced.Service.Content
                 case ".js":
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/javascript");
                     break;
+
+                case ".gif":
+                    content.Headers.ContentType = new MediaTypeHeaderValue("image/gif");
+                    break;
             }
 
             return new HttpResponseMessage() { Content = content };            

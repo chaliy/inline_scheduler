@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace InlineScheduler
 {
@@ -8,6 +9,7 @@ namespace InlineScheduler
         public int PendingJobs { get; set; }
         public int ScheduledJobs { get; set; }
         public int RunningJobs { get; set; }
+        public DateTime StartTime { get; set; }
 
         public List<SchedulerJobStats> CurrentJobs { get; set; }
 

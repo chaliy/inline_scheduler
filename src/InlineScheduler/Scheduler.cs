@@ -10,6 +10,7 @@ namespace InlineScheduler
     {
         private readonly WorkBag _work = new WorkBag();
         private bool _stopped;
+        private readonly DateTime _sartTime;
 
         public SchedulerStats Stats
         {
@@ -17,6 +18,7 @@ namespace InlineScheduler
             {
                 var stats = StatsHelper.GatherOveralStatistics(_work);
                 stats.IsStopped = _stopped;
+                stats.StartTime = _sartTime;
                 return stats;
             }
         }
@@ -24,6 +26,7 @@ namespace InlineScheduler
         public Scheduler()
         {
             _stopped = true;
+            _sartTime = DateTime.Now;
             Task.Factory.StartNew(() =>
             {
                 while (true)

@@ -23,7 +23,7 @@ namespace InlineScheduler.Tests.Advanced
             _scheduler.Schedule("Foo1", () => { _foo1WorkDone = true; }, TimeSpan.FromMinutes(10));
             _scheduler.Schedule("Foo2", () => { _foo2WorkDone = true; }, TimeSpan.FromMinutes(10));
 
-            _scheduler.Start();
+            _scheduler.Start();            
 
             Wait.For(1.Seconds());
             Wait.Unitl(() => _scheduler.Stats.RunningJobs + _scheduler.Stats.ScheduledJobs == 0);
