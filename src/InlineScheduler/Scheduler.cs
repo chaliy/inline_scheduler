@@ -23,6 +23,7 @@ namespace InlineScheduler
 
         public Scheduler()
         {
+            _stopped = true;
             Task.Factory.StartNew(() =>
             {
                 while (true)
@@ -59,10 +60,17 @@ namespace InlineScheduler
         {
             _stopped = false;
         }
-        
-        public void Schedule(string workKey, Func<Task> factory, TimeSpan interval)
+
+        public void Schedule(string workKey, Action work, TimeSpan interval, string description = null)
         {
-            _work.Add(workKey, factory, interval);
+            Func<Task> factory = () => Task.Factory.StartNew(work);
+
+            _work.Add(workKey, factory, interval, description);            
+        }
+        
+        public void Schedule(string workKey, Func<Task> factory, TimeSpan interval, string description = null)
+        {
+            _work.Add(workKey, factory, interval, description);
         }
 
         /// <summary>

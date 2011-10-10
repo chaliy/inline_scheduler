@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
 using InlineScheduler.Advanced;
-using System.Threading.Tasks;
-using System;
 using FluentAssertions;
 
 namespace InlineScheduler.Tests.Advanced

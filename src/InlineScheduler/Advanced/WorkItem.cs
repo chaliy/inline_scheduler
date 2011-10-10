@@ -7,10 +7,10 @@ namespace InlineScheduler.Advanced
     public class WorkItem
     {
         private readonly WorkContext _context;
-        private readonly string _workKey;
+        private readonly string _workKey;        
         private readonly Func<Task> _factory;
 
-        private WorkStatus _status;        
+        private WorkStatus _status;
         private DateTime? _lastStart;
         private DateTime? _lastComplete;
         private readonly List<WorkRun> _previousRuns = new List<WorkRun>();        
@@ -27,6 +27,7 @@ namespace InlineScheduler.Advanced
         public Func<Task> Factory { get { return _factory; } }
 
         public TimeSpan Interval { get; set; }
+        public string Description { get; set; }
         public WorkStatus Status { get { return _status; } }
         public DateTime? LastStart { get { return _lastStart; } }
         public DateTime? LastComplete { get { return _lastComplete; } }

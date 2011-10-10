@@ -1,0 +1,1 @@
+1. Remove Idle Time-out, by setting it to 0;

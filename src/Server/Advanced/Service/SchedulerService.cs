@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Net.Http;
 using InlineScheduler.Server.Advanced.Service.Content;

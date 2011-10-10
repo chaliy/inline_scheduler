@@ -42,13 +42,14 @@ namespace InlineScheduler.Advanced
             return _items.Count(x => x.Status == WorkStatus.Running);                    
         }
 
-        public void Add(string workKey, Func<Task> factory, TimeSpan interval)
+        public void Add(string workKey, Func<Task> factory, TimeSpan interval, string description = null)
         {
             if (!_items.Any(x => x.WorkKey == workKey))
             {                
                 _items.Add(new WorkItem(new WorkContext(), workKey, factory)
                               {
-                                  Interval = interval
+                                  Interval = interval,
+                                  Description = description
                               });
             }
         }        

@@ -64,7 +64,13 @@
     <tbody>        
     {{each CurrentJobs}}
         <tr>
-            <td>${$value.WorkKey}</td>
+            <td>
+                ${$value.WorkKey}
+                {{if $value.Description }}
+                <br/>
+                <em>${$value.Description}</em>
+                {{/if}}
+            </td>
             <td>${$value.CurrentStatus}</td>
             <td>${formateToTime($value.LastRunStarted)}-${formateToTime($value.LastRunCompleted)}</td>
             <td>{{tmpl($value) "#job-report-tmpl"}}</td>            

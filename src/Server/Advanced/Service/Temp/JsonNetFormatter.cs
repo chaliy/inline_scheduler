@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using Microsoft.ApplicationServer.Http;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Converters;
 
 namespace WebApiContrib.Formatters.JsonNet

@@ -14,6 +14,7 @@ namespace InlineScheduler.Advanced
                 .Select(x => new SchedulerJobStats
                    {
                         WorkKey = x.WorkKey,
+                        Description = x.Description,
                         CurrentStatus = (SchedulerJobStatus)x.Status,
                         LastRunStarted = x.LastStart,
                         LastRunCompleted = x.LastComplete,

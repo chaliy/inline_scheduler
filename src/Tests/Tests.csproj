@@ -57,11 +57,15 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\When_do_some_work_items.cs" />
+    <Compile Include="Advanced\When_schedule_some_work.cs" />
+    <Compile Include="Advanced\When_gather_statistics.cs" />
     <Compile Include="Advanced\When_work_item_is_run.cs" />
     <Compile Include="Advanced\When_work_item_is_ready_to_be_scheduled.cs" />
     <Compile Include="Advanced\When_create_work_item.cs" />
     <Compile Include="Advanced\__Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wait.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

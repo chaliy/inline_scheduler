@@ -36,7 +36,7 @@ namespace SimpleWebExample
                         }
                         Console.WriteLine(id + " Completed");
                     });
-                }, TimeSpan.FromMinutes(3));
+                }, TimeSpan.FromMinutes(3), description: "Do some stupid work with " + id);
             }
 
             InlineSchedulerServer.Init(Instance);

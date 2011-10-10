@@ -1,6 +1,7 @@
 ﻿using InlineScheduler.Advanced;
 using System.Threading.Tasks;
 using System;
+
 namespace InlineScheduler.Tests.Advanced
 {
     class __Utils
