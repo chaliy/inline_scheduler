@@ -2,6 +2,7 @@
 using InlineScheduler.Advanced;
 using FluentAssertions;
 using System.Threading;
+using System;
 
 namespace InlineScheduler.Tests.Advanced
 {
@@ -15,7 +16,9 @@ namespace InlineScheduler.Tests.Advanced
             var factory = new WorkItemFactory();            
             _item = factory.Create();            
 
-            // Lets run it
+            // Make item think that now tomorrow, so 
+            // it became applicable for scheduling            
+            factory.MoveToTommorrow();
             _item.UpdateState();
             _item.Run();
 

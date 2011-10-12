@@ -6,31 +6,35 @@ namespace InlineScheduler.Advanced
 {
     public class WorkItem
     {
-        private readonly WorkContext _context;
+        private readonly IWorkContext _context;
         private readonly string _workKey;        
         private readonly Func<Task> _factory;
 
         private WorkStatus _status;
-        private DateTime? _lastStart;
-        private DateTime? _lastComplete;
-        private readonly List<WorkRun> _previousRuns = new List<WorkRun>();        
+        private DateTime? _lastStartTime;
+        private DateTime? _lastCompleteTime;
+        private DateTime _createdTime;
+        private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
+        private readonly TimeSpan _interval;
 
-        public WorkItem(WorkContext context, string workKey, Func<Task> factory)
+        public WorkItem(IWorkContext context, string workKey, Func<Task> factory, TimeSpan interval)
         {
             _context = context;
             _workKey = workKey;
             _factory = factory;
-            Interval = TimeSpan.FromMinutes(2);
+            _createdTime = _context.CurrentTime;
+            _interval = interval;
+            UpdateState();
         }
 
         public string WorkKey { get { return _workKey; } }
         public Func<Task> Factory { get { return _factory; } }
 
-        public TimeSpan Interval { get; set; }
+        public TimeSpan Interval { get { return _interval; } }
         public string Description { get; set; }
         public WorkStatus Status { get { return _status; } }
-        public DateTime? LastStart { get { return _lastStart; } }
-        public DateTime? LastComplete { get { return _lastComplete; } }
+        public DateTime? LastStart { get { return _lastStartTime; } }
+        public DateTime? LastComplete { get { return _lastCompleteTime; } }
         public List<WorkRun> PreviousRuns { get { return _previousRuns; } }
         
         public void Run()
@@ -41,16 +45,16 @@ namespace InlineScheduler.Advanced
                 return;
             }            
             _status = WorkStatus.Running;
-            _lastStart = _context.CurrentTime;
+            _lastStartTime = _context.CurrentTime;
             Factory().ContinueWith(t =>
             {
                 _status = WorkStatus.Pending;
-                _lastComplete = _context.CurrentTime;
+                _lastCompleteTime = _context.CurrentTime;
 
                 var run = new WorkRun
                                 {
-                                    Started = _lastStart.Value,
-                                    Completed = _lastComplete.Value
+                                    Started = _lastStartTime.Value,
+                                    Completed = _lastCompleteTime.Value
                                 };
                     
                 if (t.Status == TaskStatus.Faulted)
@@ -85,7 +89,7 @@ namespace InlineScheduler.Advanced
         {
             if (_status == WorkStatus.Pending)
             {
-                if (_context.CurrentTime > (_lastComplete.GetValueOrDefault() + Interval))
+                if (_context.CurrentTime > ((_lastCompleteTime ?? _createdTime) + Interval))
                 {
                     _status = WorkStatus.Scheduled;
                 }

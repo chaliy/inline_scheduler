@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using InlineScheduler.Advanced;
 using FluentAssertions;
+using System;
+using System.Diagnostics;
 
 namespace InlineScheduler.Tests.Advanced
 {
@@ -11,10 +13,16 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            var factory = new WorkItemFactory();            
+            var factory = new WorkItemFactory();
+            // Make workitem think that it was created yesterday
+            factory.CurrentTime = DateTime.Now.AddDays(-1); 
             _item = factory.Create();
-            // Because work was never done before, work 
-            // item should be ready right after createion...
+
+            // Now update date to today, this 
+            // will make workitem applicable for scheduling
+            factory.CurrentTime = DateTime.Now; 
+
+            // Force workitem to reschedule            
             _item.UpdateState();
         }
 

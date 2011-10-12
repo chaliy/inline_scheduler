@@ -8,7 +8,7 @@ namespace InlineScheduler
 {
     public class Scheduler
     {
-        private readonly WorkBag _work = new WorkBag();
+        private readonly WorkBag _work;
         private bool _stopped;
         private readonly DateTime _sartTime;
 
@@ -23,8 +23,9 @@ namespace InlineScheduler
             }
         }
 
-        public Scheduler()
+        public Scheduler(IWorkContext context = null)
         {
+            _work = new WorkBag(context);
             _stopped = true;
             _sartTime = DateTime.Now;
             Task.Factory.StartNew(() =>
@@ -61,6 +62,7 @@ namespace InlineScheduler
 
         public void Start()
         {
+            _work.UpdateState();
             _stopped = false;
         }
 

@@ -13,10 +13,10 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            _item = new WorkItem(new WorkContext(), "Foo1", () =>
+            _item = new WorkItem(new DefaultWorkContext(), "Foo1", () =>
             {
                 return Task.Factory.StartNew(() => Console.WriteLine("Foo1"));
-            });
+            }, TimeSpan.FromMinutes(10));
         }
 
         [Test]

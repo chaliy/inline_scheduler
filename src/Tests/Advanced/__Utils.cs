@@ -8,9 +8,23 @@ namespace InlineScheduler.Tests.Advanced
     {        
     }
 
+    class TestWorkContext : IWorkContext
+    {
+        public DateTime CurrentTime { get; set; }
+
+        public TestWorkContext()
+        {
+            CurrentTime = DateTime.Now;
+        }
+
+        public void MoveToTommorrow()
+        {
+            CurrentTime = DateTime.Now.AddDays(1);
+        }
+    }
+
     class WorkItemFactory
     {
-
         public WorkItemFactory()
         {
             CurrentTime = DateTime.Now;
@@ -20,10 +34,15 @@ namespace InlineScheduler.Tests.Advanced
 
         public WorkItem Create() 
         {
-            return new WorkItem(new WorkContext(() => CurrentTime), "Foo1", () =>
+            return new WorkItem(new DefaultWorkContext(() => CurrentTime), "Foo1", () =>
             {
                 return Task.Factory.StartNew(() => Console.WriteLine("Foo1"));
-            });
+            }, TimeSpan.FromMinutes(10));
+        }
+
+        public void MoveToTommorrow()
+        {
+            CurrentTime = DateTime.Now.AddDays(1);
         }
     }
 }

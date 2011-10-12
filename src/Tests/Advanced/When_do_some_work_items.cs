@@ -18,14 +18,18 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_scheduler_with_some_work()
         {
-            _scheduler = new Scheduler();
+            var ctx = new TestWorkContext();
+            _scheduler = new Scheduler(ctx);
 
             _scheduler.Schedule("Foo1", () => { _foo1WorkDone = true; }, TimeSpan.FromMinutes(10));
-            _scheduler.Schedule("Foo2", () => { _foo2WorkDone = true; }, TimeSpan.FromMinutes(10));
+            _scheduler.Schedule("Foo2", () => { _foo2WorkDone = true; }, TimeSpan.FromMinutes(10));                       
+ 
+            // Lest ensure that all workitems 
+            // are applicable for schedule
+            ctx.MoveToTommorrow();
 
-            _scheduler.Start();            
-
-            Wait.For(1.Seconds());
+            _scheduler.Start();
+            
             Wait.Unitl(() => _scheduler.Stats.RunningJobs + _scheduler.Stats.ScheduledJobs == 0);
         }
 

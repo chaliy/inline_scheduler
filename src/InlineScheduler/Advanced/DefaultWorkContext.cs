@@ -1,13 +1,13 @@
 ﻿using System;
 namespace InlineScheduler.Advanced
 {
-    public class WorkContext
+    public class DefaultWorkContext : InlineScheduler.Advanced.IWorkContext
     {
         private readonly Func<DateTime> _currentTime;
 
-        public WorkContext() : this(null) { }
+        public DefaultWorkContext() : this(null) { }
 
-        public WorkContext(Func<DateTime> currentTime)
+        public DefaultWorkContext(Func<DateTime> currentTime)
         {
             _currentTime = currentTime ?? (() => DateTime.Now);
         }

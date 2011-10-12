@@ -8,7 +8,13 @@ namespace InlineScheduler.Advanced
 {
     public class WorkBag : IEnumerable<WorkItem>
     {
+        private readonly IWorkContext _context;
         private readonly ConcurrentBag<WorkItem> _items = new ConcurrentBag<WorkItem>();
+
+        public WorkBag(IWorkContext context = null)
+        {
+            _context = context ?? new DefaultWorkContext();
+        }
 
         public IEnumerator<WorkItem> GetEnumerator()
         {
@@ -46,9 +52,8 @@ namespace InlineScheduler.Advanced
         {
             if (!_items.Any(x => x.WorkKey == workKey))
             {                
-                _items.Add(new WorkItem(new WorkContext(), workKey, factory)
-                              {
-                                  Interval = interval,
+                _items.Add(new WorkItem(_context, workKey, factory, interval)
+                              {                                  
                                   Description = description
                               });
             }

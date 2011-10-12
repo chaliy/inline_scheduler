@@ -45,7 +45,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Advanced\WorkContext.cs" />
+    <Compile Include="Advanced\IWorkContext.cs" />
+    <Compile Include="Advanced\DefaultWorkContext.cs" />
     <Compile Include="Advanced\WorkRunResult.cs" />
     <Compile Include="Advanced\WorkRun.cs" />
     <Compile Include="Advanced\StatsHelper.cs" />
