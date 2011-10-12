@@ -93,6 +93,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Advanced\Service\Content\js\app.coffee">
+      <Generator>CoffeeScriptGenerator</Generator>
+      <LastGenOutput>app.js</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -104,13 +108,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Service\Content\css\style.css" />
     <EmbeddedResource Include="Advanced\Service\Content\index.html" />
-    <EmbeddedResource Include="Advanced\Service\Content\js\app.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Service\Content\images\spinning.gif" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\js\app.js">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>app.coffee</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
