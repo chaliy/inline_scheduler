@@ -3,15 +3,24 @@ InlineScheduler
 
 IMPORTANT : For now I am assuming that I am the only user of this lib, so contracts are changing without any notice or backward compatibility. If you are intersting in using this lib, let me know.
 
+Main goal is to provide in-proc scheduling facility. Originally designed to run in ASP.NET application, but probably in future this will expand to other types of hosts.
+
 Features
 ========
 
-1. [TBD]
+1. Run any code on simple interval based schedule;
+2. Allows to force executing work;
+3. Gather some statistics and provide it with simple UI.
 
 Example
 =======
 
-[TBD]
+	var scheduler = new Scheduler();
+
+	scheduler.Schedule("Foo", () =>
+	{    
+	    Console.WriteLine("Foo is now working");    
+	}, TimeSpan.FromMinutes(3));
 
 Installation
 ============
