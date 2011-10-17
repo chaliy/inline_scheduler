@@ -10,7 +10,14 @@ Features
 
 1. Run any code on simple interval based schedule;
 2. Allows to force executing work;
-3. Gather some statistics and provide it with simple UI.
+3. Gather some statistics and provide it with [simple UI](https://github.com/chaliy/inline_scheduler/wiki/UI).
+
+Interanals
+==========
+1. TPL to run jobs;
+2. WCF Web API to build REST like API;
+3. CoffeeScript to code UI;
+4. NUnit for testing.
 
 Example
 =======
