@@ -115,15 +115,13 @@
     <EmbeddedResource Include="Advanced\Service\Content\images\spinning.gif" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\1.5.1\jquery.js" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Advanced\Service\Content\js\app.js">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>app.coffee</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

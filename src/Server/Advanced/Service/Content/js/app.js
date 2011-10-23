@@ -1,5 +1,5 @@
 (function() {
-  var body, hideProgress, mainPanel, refreshStats, showProgress;
+  var body, currentHash, hideProgress, key, mainPanel, refreshStats, replaceMain, showProgress, showWorkDetails;
   $(document).ajaxError(function(ev, xhr, settings, errorThrown) {
     return alert(xhr.responseText);
   });
@@ -11,6 +11,12 @@
   hideProgress = function() {
     return mainPanel.removeClass("loading");
   };
+  replaceMain = function(tpl, data) {
+    var content;
+    content = $(tpl).tmpl(data);
+    mainPanel.empty();
+    return mainPanel.append(content);
+  };
   refreshStats = function() {
     showProgress();
     return $.ajax({
@@ -19,20 +25,25 @@
       dataType: "json",
       cache: false,
       success: function(data, status, xhr) {
-        var content;
-        hideProgress();
-        content = $("#job-list-tmpl").tmpl(data);
-        mainPanel.empty();
-        mainPanel.append(content);
-        return $(".force-work-btn").click(function(btn) {
+        replaceMain("#work-list-tmpl", data);
+        $(".force-work-btn").click(function(btn) {
           var workKey;
           workKey = $(btn.srcElement).data("work-key");
           return $.post("Work/" + workKey + "/Force", function() {
             return refreshStats();
           });
         });
+        $(".work-details-lnk").click(function(btn) {
+          var workKey;
+          workKey = $(btn.srcElement).data("work-key");
+          return showWorkDetails(workKey);
+        });
+        return hideProgress();
       }
     });
+  };
+  showWorkDetails = function(key) {
+    return replaceMain("#work-details-tmpl", key);
   };
   $("#refresh-stats-btn").click(function() {
     return refreshStats();
@@ -47,5 +58,11 @@
       return refreshStats();
     });
   });
-  refreshStats();
+  currentHash = window.location.hash;
+  if (currentHash.indexOf("#work-details-") === 0) {
+    key = currentHash.replace("#work-details-", "");
+    showWorkDetails(key);
+  } else {
+    refreshStats();
+  }
 }).call(this);

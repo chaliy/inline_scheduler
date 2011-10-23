@@ -24,7 +24,7 @@
     <div id="main"></div>    
     
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <script defer src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>    
 	<script src="js/app.js"></script>	
     <script type="text/javascript">
         function formateToTime(inp) {
@@ -48,7 +48,7 @@
             return current.toLocaleTimeString();
         }
     </script>
-    <script id="job-list-tmpl" type="text/x-jquery-tmpl">		
+    <script id="work-list-tmpl" type="text/x-jquery-tmpl">		
     {{if IsStopped}}    
     <strong>Stopped</strong>
     {{/if}}
@@ -71,8 +71,8 @@
     <tbody>        
     {{each CurrentJobs}}
         <tr>
-            <td>
-                ${$value.WorkKey}
+            <td>                
+                <a class="work-details-lnk" data-work-key="${$value.WorkKey}" href="#work-details-${$value.WorkKey}">${$value.WorkKey}</a>
                 {{if $value.Description }}
                 <br/>
                 <em>${$value.Description}</em>
@@ -80,14 +80,14 @@
             </td>
             <td>${$value.CurrentStatus}</td>
             <td>${formateToTime($value.LastRunStarted)}-${formateToTime($value.LastRunCompleted)}</td>
-            <td>{{tmpl($value) "#job-report-tmpl"}}</td>            
+            <td>{{tmpl($value) "#work-report-tmpl"}}</td>            
             <td><a class="force-work-btn btn primary" data-work-key="${$value.WorkKey}" >Force</a></td>
         </tr>
 	{{/each}}
     </tbody>
     </table>
     </script>
-    <script id="job-report-tmpl" type="text/x-jquery-tmpl">		     
+    <script id="work-report-tmpl" type="text/x-jquery-tmpl">		     
     <dl>
     {{each PreviousRuns}}
         {{if $value.Result == "Failure" }}
@@ -103,6 +103,9 @@
         </dd>        
 	{{/each}}
     </dl>    
+    </script>
+    <script id="work-details-tmpl" type="text/x-jquery-tmpl">		     
+    <h2>Work Details</h2>
     </script>
 
 </body>
