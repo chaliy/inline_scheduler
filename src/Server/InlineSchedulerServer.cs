@@ -2,6 +2,7 @@
 using InlineScheduler.Server.Advanced.Service;
 using Microsoft.ApplicationServer.Http;
 using WebApiContrib.Formatters.JsonNet;
+using InlineScheduler.Server.Advanced.Hosting;
 
 namespace InlineScheduler.Server
 {
@@ -24,6 +25,8 @@ namespace InlineScheduler.Server
             config.Formatters.Insert(0, new JsonNetFormatter());
 
             RouteTable.Routes.MapServiceRoute<SchedulerService>(prefix, config);
+
+            HostingRegistration.Register(scheduler);
         }
 
     }

@@ -10,24 +10,16 @@ namespace InlineScheduler
     {
         private readonly WorkBag _work;
         private bool _stopped;
-        private readonly DateTime _sartTime;
-
-        public SchedulerStats Stats
-        {
-            get
-            {
-                var stats = StatsHelper.GatherOveralStatistics(_work);
-                stats.IsStopped = _stopped;
-                stats.StartTime = _sartTime;
-                return stats;
-            }
-        }
+        private readonly DateTime _sartTime;        
 
         public Scheduler(IWorkContext context = null)
         {
+            //HostingEnvironment
             _work = new WorkBag(context);
             _stopped = true;
             _sartTime = DateTime.Now;
+            
+            // TODO Should use timer
             Task.Factory.StartNew(() =>
             {
                 while (true)
@@ -53,7 +45,25 @@ namespace InlineScheduler
             });
         }
 
+        public SchedulerStats Stats
+        {
+            get
+            {
+                var stats = StatsHelper.GatherOveralStatistics(_work);
+                stats.IsStopped = _stopped;
+                stats.StartTime = _sartTime;
+                return stats;
+            }
+        }
+
         public bool IsStopped { get { return _stopped; } }
+        public bool IsRunningJobsNow
+        {
+            get
+            {
+                return Stats.RunningJobs > 0;
+            }
+        }
 
         public void Stop() 
         {
