@@ -89,9 +89,19 @@ namespace InlineScheduler.Advanced
         {
             if (_status == WorkStatus.Pending)
             {
-                if (_context.CurrentTime > ((_lastCompleteTime ?? _createdTime) + Interval))
+                if (_lastCompleteTime == null)
+                {                    
+                    if (_context.CurrentTime > _createdTime.AddMilliseconds(_context.GetNextRandom(200, 10000)))
+                    {
+                        _status = WorkStatus.Scheduled;
+                    }
+                }
+                else
                 {
-                    _status = WorkStatus.Scheduled;
+                    if (_context.CurrentTime > _lastCompleteTime + Interval)
+                    {
+                        _status = WorkStatus.Scheduled;
+                    }
                 }
             }
 

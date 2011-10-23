@@ -21,6 +21,12 @@ namespace InlineScheduler.Tests.Advanced
         {
             CurrentTime = DateTime.Now.AddDays(1);
         }
+
+
+        public int GetNextRandom(int from, int to)
+        {
+            return new Random().Next(from, to);
+        }
     }
 
     class WorkItemFactory

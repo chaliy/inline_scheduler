@@ -10,7 +10,9 @@ namespace InlineScheduler
     {
         private readonly WorkBag _work;
         private bool _stopped;
-        private readonly DateTime _sartTime;        
+        private readonly DateTime _sartTime;
+
+        private readonly Timer _timer;
 
         public Scheduler(IWorkContext context = null)
         {
@@ -19,30 +21,29 @@ namespace InlineScheduler
             _stopped = true;
             _sartTime = DateTime.Now;
             
-            // TODO Should use timer
-            Task.Factory.StartNew(() =>
+            // Start timer
+            _timer = new Timer(OnTimerElapsed);
+            _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
+
+        }
+
+        void OnTimerElapsed(object sender)  
+        {
+            _work.UpdateState();
+            if (!_stopped)
             {
-                while (true)
+                var runningCount = _work.GetRuningWork();
+
+                if (runningCount < 20)
                 {
-                    _work.UpdateState();
-                    if (!_stopped)
+                    var applicableDefs = _work.GetApplicableToRun(20);
+
+                    foreach (var def in applicableDefs)
                     {
-                        var runningCount = _work.GetRuningWork();
-
-                        if (runningCount < 20)
-                        {
-                            var applicableDefs = _work.GetApplicableToRun(20);
-
-                            foreach (var def in applicableDefs)
-                            {
-                                def.Run();
-                            }
-                        }
+                        def.Run();
                     }
-                    
-                    Thread.Sleep(1000);
                 }
-            });
+            }   
         }
 
         public SchedulerStats Stats
