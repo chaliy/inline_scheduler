@@ -1,3 +1,12 @@
 ﻿.loading {
 	opacity: 0.8;
 }
+
+html 
+{
+    background-image: url(../images/small_tiles.png);    
+}
+body
+{
+    padding: 10px;
+}

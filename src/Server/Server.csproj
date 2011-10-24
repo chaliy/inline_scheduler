@@ -121,7 +121,17 @@
       <DependentUpon>app.coffee</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\images\light_checkered_tiles.png" />
+    <EmbeddedResource Include="Advanced\Service\Content\images\light_checkered_tiles.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Advanced\Service\Content\js\vendor\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\images\small_tiles.png" />
+    <EmbeddedResource Include="Advanced\Service\Content\images\small_tiles.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
