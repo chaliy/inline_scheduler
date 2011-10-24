@@ -3,16 +3,32 @@ $(document).ajaxError (ev, xhr, settings, errorThrown) ->
 
 mainPanel = $("#main")
 body = $("body")
+currentPath = window.location.hash
 
-showProgress = -> mainPanel.addClass("loading")
-hideProgress = -> mainPanel.removeClass("loading")
+# Utility
+
+showProgress = -> body.addClass("loading")
+hideProgress = -> body.removeClass("loading")
 
 replaceMain = (tpl, data) ->
     content = $(tpl).tmpl(data)
     mainPanel.empty()
     mainPanel.append(content)
+    
+refresh = ->
+    if (currentPath.indexOf("#work-details-") == 0)
+        key = currentPath.replace("#work-details-", "");
+        showWorkDetails key
+    else
+        showHome()
 
-refreshStats = ->
+route = (path) ->
+    currentPath = path
+    refresh()
+
+# Routes
+
+showHome = ->
     showProgress()
     $.ajax
         url: "Stats?v=1"
@@ -24,11 +40,7 @@ refreshStats = ->
 
             $(".force-work-btn").click (btn) ->
                 workKey = $(btn.srcElement).data("work-key")
-                $.post("Work/#{workKey}/Force", () -> refreshStats())    
-            
-            $(".work-details-lnk").click (btn) ->
-                workKey = $(btn.srcElement).data("work-key")
-                showWorkDetails workKey		
+                $.post("Work/#{workKey}/Force", () -> refresh())
             
             hideProgress()
 
@@ -44,18 +56,19 @@ showWorkDetails = (key) ->
                         
             hideProgress()    
 
-$("#refresh-stats-btn").click -> refreshStats()
+# Handlers
+
+$("#refresh-stats-btn").click -> refresh()
 
 $("#stop-btn").click ->
-    $.post "Stop", -> refreshStats()    
+    $.post "Stop", -> refresh()    
 
 $("#start-btn").click ->
-    $.post "Start", -> refreshStats()
+    $.post "Start", -> refresh()
+
+$(window).bind "hashchange", ->
+    currentPath = window.location.hash
+    refresh()
 
 
-currentHash = window.location.hash
-if (currentHash.indexOf("#work-details-") == 0)
-    key = currentHash.replace("#work-details-", "");
-    showWorkDetails key
-else
-    refreshStats()
+refresh()

@@ -1,15 +1,16 @@
 (function() {
-  var body, currentHash, hideProgress, key, mainPanel, refreshStats, replaceMain, showProgress, showWorkDetails;
+  var body, currentPath, hideProgress, mainPanel, refresh, replaceMain, route, showHome, showProgress, showWorkDetails;
   $(document).ajaxError(function(ev, xhr, settings, errorThrown) {
     return alert(xhr.responseText);
   });
   mainPanel = $("#main");
   body = $("body");
+  currentPath = window.location.hash;
   showProgress = function() {
-    return mainPanel.addClass("loading");
+    return body.addClass("loading");
   };
   hideProgress = function() {
-    return mainPanel.removeClass("loading");
+    return body.removeClass("loading");
   };
   replaceMain = function(tpl, data) {
     var content;
@@ -17,7 +18,20 @@
     mainPanel.empty();
     return mainPanel.append(content);
   };
-  refreshStats = function() {
+  refresh = function() {
+    var key;
+    if (currentPath.indexOf("#work-details-") === 0) {
+      key = currentPath.replace("#work-details-", "");
+      return showWorkDetails(key);
+    } else {
+      return showHome();
+    }
+  };
+  route = function(path) {
+    currentPath = path;
+    return refresh();
+  };
+  showHome = function() {
     showProgress();
     return $.ajax({
       url: "Stats?v=1",
@@ -30,13 +44,8 @@
           var workKey;
           workKey = $(btn.srcElement).data("work-key");
           return $.post("Work/" + workKey + "/Force", function() {
-            return refreshStats();
+            return refresh();
           });
-        });
-        $(".work-details-lnk").click(function(btn) {
-          var workKey;
-          workKey = $(btn.srcElement).data("work-key");
-          return showWorkDetails(workKey);
         });
         return hideProgress();
       }
@@ -56,23 +65,21 @@
     });
   };
   $("#refresh-stats-btn").click(function() {
-    return refreshStats();
+    return refresh();
   });
   $("#stop-btn").click(function() {
     return $.post("Stop", function() {
-      return refreshStats();
+      return refresh();
     });
   });
   $("#start-btn").click(function() {
     return $.post("Start", function() {
-      return refreshStats();
+      return refresh();
     });
   });
-  currentHash = window.location.hash;
-  if (currentHash.indexOf("#work-details-") === 0) {
-    key = currentHash.replace("#work-details-", "");
-    showWorkDetails(key);
-  } else {
-    refreshStats();
-  }
+  $(window).bind("hashchange", function() {
+    currentPath = window.location.hash;
+    return refresh();
+  });
+  refresh();
 }).call(this);

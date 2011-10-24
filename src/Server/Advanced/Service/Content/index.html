@@ -23,6 +23,12 @@
     </div>
     <div id="main"></div>    
     
+    <footer class="footer">      
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Code licensed under the <a href="http://www.opensource.org/licenses/mit-license.php" target="_blank">MIT</a> and hosted on <a href="https://github.com/chaliy/inline_scheduler">GitHub</a></p>      
+    </footer>    
+
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
     <script defer src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>    
 	<script src="js/app.js"></script>	
@@ -80,7 +86,7 @@
             </td>
             <td>${$value.CurrentStatus}</td>
             <td>${formateToTime($value.LastRunStarted)}-${formateToTime($value.LastRunCompleted)}</td>
-            <td>{{tmpl($value) "#work-report-tmpl"}}</td>
+            <td><div style="max-width:350px">{{tmpl($value) "#work-report-tmpl"}}</div></td>
             <td><a class="force-work-btn btn primary" data-work-key="${$value.WorkKey}" >Force</a></td>
         </tr>
 	{{/each}}
@@ -98,14 +104,21 @@
         <dd>
             <em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em>
             {{if $value.ResultMessage }}
-            <pre style="max-width:350px">${$value.ResultMessage}</pre>
+            <pre>${$value.ResultMessage}</pre>
             {{/if}}
         </dd>        
 	{{/each}}
     </dl>    
     </script>
-    <script id="work-details-tmpl" type="text/x-jquery-tmpl">		     
+    <script id="work-details-tmpl" type="text/x-jquery-tmpl">    
     <h3>Work Details: ${WorkKey}</h3>
+    <ul class="breadcrumb">
+        <li><a href="#">All work</a><span class="divider">/</span></li>
+        <li class="active">${WorkKey}</li>
+    </ul>    
+    {{if Description }}    
+    <p><em>${Description}</em></p>
+    {{/if}}
     {{tmpl "#work-report-tmpl"}}
     </script>
 

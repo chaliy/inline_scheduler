@@ -1,12 +1,14 @@
 ﻿.loading {
-	opacity: 0.8;
+	opacity: 0.7;
 }
 
 html 
 {
-    background-image: url(../images/small_tiles.png);    
+    background-image: url(../images/circles.png);    
 }
 body
 {
     padding: 10px;
+    margin: 3px;
+    border-radius: 3px;    
 }
