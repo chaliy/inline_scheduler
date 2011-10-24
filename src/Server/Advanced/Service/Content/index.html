@@ -80,7 +80,7 @@
             </td>
             <td>${$value.CurrentStatus}</td>
             <td>${formateToTime($value.LastRunStarted)}-${formateToTime($value.LastRunCompleted)}</td>
-            <td>{{tmpl($value) "#work-report-tmpl"}}</td>            
+            <td>{{tmpl($value) "#work-report-tmpl"}}</td>
             <td><a class="force-work-btn btn primary" data-work-key="${$value.WorkKey}" >Force</a></td>
         </tr>
 	{{/each}}
@@ -105,7 +105,8 @@
     </dl>    
     </script>
     <script id="work-details-tmpl" type="text/x-jquery-tmpl">		     
-    <h2>Work Details</h2>
+    <h3>Work Details: ${WorkKey}</h3>
+    {{tmpl "#work-report-tmpl"}}
     </script>
 
 </body>

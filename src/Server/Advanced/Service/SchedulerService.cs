@@ -1,4 +1,5 @@
-﻿using System.ServiceModel;
+﻿using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Net.Http;
 using InlineScheduler.Server.Advanced.Service.Content;
@@ -25,9 +26,15 @@ namespace InlineScheduler.Server.Advanced.Service
         }
 
         [WebGet(UriTemplate = "Stats")]
-        public SchedulerStats PostScheduled()
+        public SchedulerStats Stats()
         {
             return _scheduler.Stats;
+        }
+
+        [WebGet(UriTemplate = "Stats/Work/{workKey}/")]
+        public SchedulerJobStats WorkStats(string workKey)
+        {
+            return _scheduler.Stats.CurrentJobs.FirstOrDefault(x => x.WorkKey == workKey);
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "Work/{workKey}/Force")]

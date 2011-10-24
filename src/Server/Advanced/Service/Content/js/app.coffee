@@ -33,7 +33,16 @@ refreshStats = ->
             hideProgress()
 
 showWorkDetails = (key) ->
-    replaceMain "#work-details-tmpl", key    
+    showProgress()
+    $.ajax
+        url: "Stats/Work/#{key}/?v=1"
+        context: document.body
+        dataType: "json"
+        cache: false
+        success: (data, status, xhr) ->            
+            replaceMain "#work-details-tmpl", data
+                        
+            hideProgress()    
 
 $("#refresh-stats-btn").click -> refreshStats()
 

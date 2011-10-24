@@ -43,7 +43,17 @@
     });
   };
   showWorkDetails = function(key) {
-    return replaceMain("#work-details-tmpl", key);
+    showProgress();
+    return $.ajax({
+      url: "Stats/Work/" + key + "/?v=1",
+      context: document.body,
+      dataType: "json",
+      cache: false,
+      success: function(data, status, xhr) {
+        replaceMain("#work-details-tmpl", data);
+        return hideProgress();
+      }
+    });
   };
   $("#refresh-stats-btn").click(function() {
     return refreshStats();
