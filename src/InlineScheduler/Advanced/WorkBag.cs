@@ -11,9 +11,9 @@ namespace InlineScheduler.Advanced
         private readonly IWorkContext _context;
         private readonly ConcurrentBag<WorkItem> _items = new ConcurrentBag<WorkItem>();
 
-        public WorkBag(IWorkContext context = null)
+        public WorkBag(IWorkContext context)
         {
-            _context = context ?? new DefaultWorkContext();
+            _context = context;
         }
 
         public IEnumerator<WorkItem> GetEnumerator()
@@ -48,15 +48,19 @@ namespace InlineScheduler.Advanced
             return _items.Count(x => x.Status == WorkStatus.Running);                    
         }
 
-        public void Add(string workKey, Func<Task> factory, TimeSpan interval, string description = null)
+        public bool IsWorkRegisterd(string workKey)
         {
-            if (!_items.Any(x => x.WorkKey == workKey))
-            {                
-                _items.Add(new WorkItem(_context, workKey, factory, interval)
-                              {                                  
-                                  Description = description
-                              });
+            return _items.Any(x => x.WorkKey == workKey);
+        }
+
+        public void Add(WorkItem item)
+        {
+            if (IsWorkRegisterd(item.WorkKey))
+            {
+                throw new InvalidOperationException("Work with key " + item.WorkKey + " already registered.\r\n" 
+                    + "You can use IsWorkRegisterd to check if work is already registered");
             }
+            _items.Add(item);
         }        
     }
 }

@@ -13,14 +13,14 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            var factory = new WorkItemFactory();
+            var ctx = new TestWorkContext();
             // Make workitem think that it was created yesterday
-            factory.CurrentTime = DateTime.Now.AddDays(-1); 
-            _item = factory.Create();
+            ctx.MoveToYesterday();            
+            _item = WorkItemFactory.Create(ctx);
 
             // Now update date to today, this 
             // will make workitem applicable for scheduling
-            factory.CurrentTime = DateTime.Now; 
+            ctx.MoveToNow(); 
 
             // Force workitem to reschedule            
             _item.UpdateState();
