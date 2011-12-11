@@ -17,7 +17,7 @@
     <header class="row">
         <h1 class="span12">Inline Scheduler</h1>
 
-        <div class="span4">
+        <div class="span4" data-bind="css: { loading: inProgress }">
             <a class="btn" data-bind="click: start">Start</a>
             <a class="btn" data-bind="click: stop">Stop</a>
         </div>
@@ -25,7 +25,7 @@
            
     <div>
         <!--<a id="refresh-stats-btn" class="btn primary">Refresh</a> -->                
-    <!--<strong data-bind="visible: isStpped">Stopped</strong>    -->
+    <strong data-bind="visible: isStopped">Stopped</strong>
     <p>
         Pending: <span data-bind="text: pendingJobsCount"></span>,
         scheduled: <span data-bind="text: scheduledJobsCount"></span>,
@@ -60,9 +60,8 @@
                 </td>
                 <td>${CurrentStatus}</td>
                 <td>${formateToTime(LastRunStarted)}-${formateToTime(LastRunCompleted)}</td>
-                <td data-bind="template: { name: 'workReportTemplate' }"></td>
-                <!--data-bind="click: force"-->
-                <td><a class="btn primary" href="#">Force</a></td>
+                <td data-bind="template: { name: 'workReportTemplate' }"></td>                
+                <td><a class="btn primary" href="#" data-bind="click: force">Force</a></td>
             </tr>
         </script>
         
