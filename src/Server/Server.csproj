@@ -133,11 +133,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Advanced\Service\Content\js\vendor\" />
+    <Content Include="Advanced\Service\Content\js\vendor\jquery.address\jquery.address-1.4.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\knockout\knockout.address.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery.address\jquery.address-1.4.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Advanced\Service\Content\images\circles.png" />
     <EmbeddedResource Include="Advanced\Service\Content\images\circles.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\knockout\knockout-1.2.1.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
