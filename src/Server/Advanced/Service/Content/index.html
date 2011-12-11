@@ -18,18 +18,26 @@
         <h1 class="span12">Inline Scheduler</h1>
 
         <div class="span4">
-            <a id="stop-btn" class="btn">Stop</a>
-            <a id="start-btn" class="btn">Start</a>
+            <a class="btn" data-bind="click: start">Start</a>
+            <a class="btn" data-bind="click: stop">Stop</a>
         </div>
     </header>
            
     <div>
-        <a id="refresh-stats-btn" class="btn primary">Refresh</a>        
+        <!--<a id="refresh-stats-btn" class="btn primary">Refresh</a> -->                
+    <!--<strong data-bind="visible: isStpped">Stopped</strong>    -->
+    <p>
+        Pending: <span data-bind="text: pendingJobsCount"></span>,
+        scheduled: <span data-bind="text: scheduledJobsCount"></span>,
+        running: <span data-bind="text: runningJobsCount"></span>.
+    </p>        
+    <!--<em>Last generated at ${currentTime()}</em>-->
+        
     </div>
     <div id="main">
-
-        <!-- data-bind="visible: !selectedWorks()" -->
-        <table class="works">
+        
+        <!-- Work List -->
+        <table data-bind="visible: !selectedWork()">
         <thead>
             <tr>
                 <th>Key</th>
@@ -39,12 +47,12 @@
                 <th>&nbsp;</th>
             </tr>
         </thead>
-        <tbody data-bind="template: { name: 'worksListItem', foreach: currentWorks }"></tbody>
+        <tbody data-bind="template: { name: 'worksListItemTemplate', foreach: currentWorks }"></tbody>
         </table>
-        <script type="text/html" id="worksListItem">
+        <script type="text/html" id="worksListItemTemplate">
             <tr>
                 <td>                
-                    <a class="work-details-lnk" data-work-key="${WorkKey}" href="#work-details-${WorkKey}">${WorkKey}</a>
+                    <a href="#" data-bind="click: function() { worksViewModel.selectedWorkId($data.WorkKey) }">${WorkKey}</a>
                     {{if Description }}
                     <br/>
                     <em>${Description}</em>
@@ -52,25 +60,47 @@
                 </td>
                 <td>${CurrentStatus}</td>
                 <td>${formateToTime(LastRunStarted)}-${formateToTime(LastRunCompleted)}</td>
-                <td>
-                    <dl data-bind="template: { name: 'workReportItem', foreach: PreviousRuns }"></dl>
-                </td>
-                <td><a class="force-work-btn btn primary" data-work-key="${WorkKey}" >Force</a></td>
+                <td data-bind="template: { name: 'workReportTemplate' }"></td>
+                <!--data-bind="click: force"-->
+                <td><a class="btn primary" href="#">Force</a></td>
             </tr>
         </script>
-        <script type="text/html" id="workReportItem">
-            {{if $Result == "Failure" }}
-                <dt><span class="label important">Important</span>${Result}</dt>
-                {{else}}
-                <dt>${Result}</dt>
-                {{/if}}
-                <dd>
-                    <em>${formateToTime($Started)}-${formateToTime($Completed)}</em>
-                    {{if $ResultMessage }}
-                    <pre>${ResultMessage}</pre>
-                    {{/if}}
-                </dd>        
+        
+        
+        <!-- Work Details -->
+        <div data-bind="template: { name: 'workDetailsTemplate', data: selectedWork }"></div>
+        <script type="text/html" id="workDetailsTemplate">    
+            <h3>Work Details: ${WorkKey}</h3>   
+            <ul class="breadcrumb">
+                <li><a href="#">All work</a><span class="divider">/</span></li>
+                <li class="active">${WorkKey}</li>    
+            </ul>
+            {{if Description }}
+            <p><em>${Description}</em></p>
+            {{/if}}
+            <div data-bind="template: { name: 'workReportTemplate' }"></div>
         </script>
+        
+        <!-- Utils -->        
+        
+        <script type="text/html" id="workReportTemplate">
+        <dl>
+        {{each PreviousRuns}}
+            {{if $value.Result == "Failure" }}
+            <dt><span class="label important">Important</span>${$value.Result}</dt>
+            {{else}}
+            <dt>${$value.Result}</dt>
+            {{/if}}
+            <dd>
+                <em>${formateToTime($value.Started)}-${formateToTime($value.Completed)}</em>
+                {{if $value.ResultMessage }}
+                <pre>${$value.ResultMessage}</pre>
+                {{/if}}
+            </dd>        
+	    {{/each}}
+        </dl>    
+        </script>
+
 
     </div>    
     

@@ -1,21 +1,43 @@
 (function() {
   var viewModel;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   $(document).ajaxError(function(ev, xhr, settings, errorThrown) {
     return alert(xhr.responseText);
   });
   viewModel = {
-    folders: ['Inbox', 'Archive', 'Sent', 'Spam'],
-    selectedFolder: ko.observable('Inbox'),
-    selectedMailId: ko.observable(),
+    selectedWorkId: ko.observable(),
+    selectedWork: ko.observable(),
     currentWorks: ko.observableArray([]),
-    loadStats: __bind(function(s) {
+    stats: ko.observable(),
+    pendingJobsCount: ko.observable(),
+    scheduledJobsCount: ko.observable(),
+    runningJobsCount: ko.observable(),
+    start: function() {
+      return $.post("Start", function() {
+        return viewModel.refresh();
+      });
+    },
+    stop: function() {
+      return $.post("Stop", function() {
+        return viewModel.refresh();
+      });
+    },
+    refresh: function() {
+      return $.get("Stats?v=1", null, viewModel.loadStats);
+    },
+    loadStats: function(s) {
+      viewModel.pendingJobsCount(s.PendingJobs);
+      viewModel.scheduledJobsCount(s.ScheduledJobs);
+      viewModel.runningJobsCount(s.RunningJobs);
       return viewModel.currentWorks(s.CurrentJobs);
-    }, this)
+    }
   };
+  ko.dependentObservable((function() {
+    var workIdFind;
+    workIdFind = viewModel.selectedWorkId();
+    return $.get("Stats/Work/" + workIdFind + "/?v=1", null, viewModel.selectedWork);
+  }), viewModel);
   window.worksViewModel = viewModel;
   ko.applyBindings(viewModel);
-  ko.dependentObservable((function() {
-    return $.get("Stats?v=1", null, viewModel.loadStats);
-  }), viewModel);
+  ko.linkObservableToUrl(viewModel.selectedWorkId, "workId");
+  viewModel.refresh();
 }).call(this);
