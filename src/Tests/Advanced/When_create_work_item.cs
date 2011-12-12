@@ -16,7 +16,7 @@ namespace InlineScheduler.Tests.Advanced
             _item = new WorkItem(new DefaultWorkContext(), "Foo1", () =>
             {
                 return Task.Factory.StartNew(() => Console.WriteLine("Foo1"));
-            }, TimeSpan.FromMinutes(10));
+            }, TimeSpan.FromMinutes(10), null);
         }
 
         [Test]

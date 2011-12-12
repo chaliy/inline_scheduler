@@ -9,6 +9,7 @@ namespace InlineScheduler
     public class Scheduler
     {
         private readonly WorkBag _work;
+        private readonly WorkItemFactory _itemFactory;
         private bool _stopped;
         private readonly DateTime _sartTime;
 
@@ -16,8 +17,9 @@ namespace InlineScheduler
 
         public Scheduler(IWorkContext context = null)
         {
-            //HostingEnvironment
+            context = context ?? new DefaultWorkContext();
             _work = new WorkBag(context);
+            _itemFactory = new WorkItemFactory(context);
             _stopped = true;
             _sartTime = DateTime.Now;
             
@@ -80,13 +82,16 @@ namespace InlineScheduler
         public void Schedule(string workKey, Action work, TimeSpan interval, string description = null)
         {
             Func<Task> factory = () => Task.Factory.StartNew(work);
-
-            _work.Add(workKey, factory, interval, description);            
+            Schedule(workKey, factory, interval, description);
         }
         
         public void Schedule(string workKey, Func<Task> factory, TimeSpan interval, string description = null)
         {
-            _work.Add(workKey, factory, interval, description);
+            if (!_work.IsWorkRegisterd(workKey))
+            {
+                var item = _itemFactory.Create(workKey, factory, interval, description);
+                _work.Add(item);
+            }
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace SimpleConsoleExample
     class Program
     {
         static void Main(string[] args)
-        {
+        {            
             var scheduler = new Scheduler();
             var random = new Random();
             for (var i = 0; i < 1000; i++)

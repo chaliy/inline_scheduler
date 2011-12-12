@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using InlineScheduler.Advanced.State;
 
 namespace InlineScheduler.Advanced
 {
@@ -17,13 +18,19 @@ namespace InlineScheduler.Advanced
         private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
         private readonly TimeSpan _interval;
 
-        public WorkItem(IWorkContext context, string workKey, Func<Task> factory, TimeSpan interval)
+        public WorkItem(IWorkContext context, string workKey, Func<Task> factory, TimeSpan interval, WorkState presavedState)
         {
             _context = context;
             _workKey = workKey;
             _factory = factory;
             _createdTime = _context.CurrentTime;
             _interval = interval;
+
+            if (presavedState != null)             
+            {
+                _lastCompleteTime = presavedState.LastCompleteTime;
+            }
+
             UpdateState();
         }
 
@@ -35,7 +42,7 @@ namespace InlineScheduler.Advanced
         public WorkStatus Status { get { return _status; } }
         public DateTime? LastStart { get { return _lastStartTime; } }
         public DateTime? LastComplete { get { return _lastCompleteTime; } }
-        public List<WorkRun> PreviousRuns { get { return _previousRuns; } }
+        public List<WorkRun> PreviousRuns { get { return _previousRuns; } }        
         
         public void Run()
         {

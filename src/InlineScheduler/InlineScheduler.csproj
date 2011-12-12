@@ -36,6 +36,7 @@
     <Reference Include="System.Reactive">
       <HintPath>..\..\packages\Rx-Main.1.0.10621\lib\Net4\System.Reactive.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -47,6 +48,11 @@
     </Compile>
     <Compile Include="Advanced\IWorkContext.cs" />
     <Compile Include="Advanced\DefaultWorkContext.cs" />
+    <Compile Include="Advanced\State\TempFolderStateProvider.cs" />
+    <Compile Include="Advanced\State\IStateProvider.cs" />
+    <Compile Include="Advanced\State\MemoryStateProvider.cs" />
+    <Compile Include="Advanced\State\WorkState.cs" />
+    <Compile Include="Advanced\WorkItemFactory.cs" />
     <Compile Include="Advanced\WorkRunResult.cs" />
     <Compile Include="Advanced\WorkRun.cs" />
     <Compile Include="Advanced\StatsHelper.cs" />
