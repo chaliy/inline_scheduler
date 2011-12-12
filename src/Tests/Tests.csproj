@@ -31,8 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions">
-      <HintPath>..\..\packages\FluentAssertions.1.4.0.0\Lib\.NetFramework 4.0\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=1.6.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\FluentAssertions.1.6.0\Lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
@@ -57,6 +58,10 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\State\When_save_and_read_work_item_state.cs" />
+    <Compile Include="Advanced\State\When_read_invalid_state.cs" />
+    <Compile Include="Advanced\State\When_read_state_never_saved_before.cs" />
+    <Compile Include="Advanced\State\When_save_work_item_state.cs" />
     <Compile Include="Advanced\When_do_some_work_items.cs" />
     <Compile Include="Advanced\When_schedule_some_work.cs" />
     <Compile Include="Advanced\When_gather_statistics.cs" />

@@ -13,12 +13,12 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            var factory = new WorkItemFactory();            
-            _item = factory.Create();            
+            var ctx = new TestWorkContext();            
+            _item = WorkItemFactory.Create(ctx);            
 
             // Make item think that now tomorrow, so 
             // it became applicable for scheduling            
-            factory.MoveToTommorrow();
+            ctx.MoveToTommorrow();
             _item.UpdateState();
             _item.Run();
 
