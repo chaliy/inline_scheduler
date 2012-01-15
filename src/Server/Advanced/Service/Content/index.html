@@ -26,15 +26,12 @@
     </header>
            
     <div>
-        <!--<a id="refresh-stats-btn" class="btn primary">Refresh</a> -->                
         <strong data-bind="visible: isStopped">Stopped</strong>
         <p>
             Pending: <span data-bind="text: pendingJobsCount"></span>,
             scheduled: <span data-bind="text: scheduledJobsCount"></span>,
             running: <span data-bind="text: runningJobsCount"></span>.
         </p>        
-        <!--<em>Last generated at ${currentTime()}</em>-->
-        
     </div>
     
     <hr/>

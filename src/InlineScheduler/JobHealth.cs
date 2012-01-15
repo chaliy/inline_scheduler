@@ -1,8 +1,12 @@
+using System.Runtime.Serialization;
+
 namespace InlineScheduler
 {
     public enum JobHealth
     {
-        Good,        
+        [EnumMember(Value = "Good")]
+        Good,
+        [EnumMember(Value = "Bad")]
         Bad
     }
 }

@@ -45,7 +45,7 @@ viewModel =
     get: (u, c) ->
         $.ajax
             url: u
-            context: document.body
+            context: document.body            
             dataType: "json"
             cache: false
             success: (data, status, xhr) -> c(data)

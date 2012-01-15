@@ -9,9 +9,10 @@ namespace InlineScheduler
     public class Scheduler
     {
         private readonly WorkBag _work;
-        private readonly WorkItemFactory _itemFactory;
-        private bool _stopped;
+        private readonly WorkItemFactory _itemFactory;        
         private readonly DateTime _sartTime;
+
+        private bool _stopped;
 
         private readonly Timer _timer;
 
