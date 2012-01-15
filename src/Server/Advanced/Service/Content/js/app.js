@@ -64,7 +64,12 @@
     var jobIdFind;
     jobIdFind = viewModel.selectedJobId();
     if (jobIdFind) {
-      return viewModel.get("Stats/Work/" + jobIdFind + "/?v=1", viewModel.selectedJob);
+      return viewModel.get("Stats/Work/" + jobIdFind + "/?v=1", function(s) {
+        s.force = function() {
+          return viewModel.force(s.WorkKey);
+        };
+        return viewModel.selectedJob(s);
+      });
     } else {
       return viewModel.selectedJob(null);
     }

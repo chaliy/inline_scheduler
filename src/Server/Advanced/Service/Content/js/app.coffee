@@ -53,7 +53,9 @@ viewModel =
 ko.dependentObservable -> 
     jobIdFind = viewModel.selectedJobId()
     if (jobIdFind)
-	    viewModel.get("Stats/Work/#{jobIdFind}/?v=1", viewModel.selectedJob)
+	    viewModel.get("Stats/Work/#{jobIdFind}/?v=1", (s) -> 
+            s.force = -> viewModel.force(s.WorkKey)
+            viewModel.selectedJob(s))
     else
         viewModel.selectedJob null	
 
