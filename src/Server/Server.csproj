@@ -133,7 +133,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery.tmpl\jquery.tmpl.min.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\css\vendor\bootstrap\bootstrap.min.css" />
     <Content Include="Advanced\Service\Content\js\vendor\jquery.address\jquery.address-1.4.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\jquery-1.6.4.js" />
+    <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery\jquery-1.6.4.min.js" />
     <EmbeddedResource Include="Advanced\Service\Content\js\vendor\knockout\knockout.address.js" />
     <EmbeddedResource Include="Advanced\Service\Content\js\vendor\jquery.address\jquery.address-1.4.min.js" />
   </ItemGroup>

@@ -9,6 +9,7 @@
     selectedJobId: ko.observable(),
     selectedJob: ko.observable(),
     currentJobs: ko.observableArray([]),
+    filter: ko.observable(),
     pendingJobsCount: ko.observable(),
     scheduledJobsCount: ko.observable(),
     runningJobsCount: ko.observable(),
@@ -59,7 +60,7 @@
     }
   };
 
-  ko.dependentObservable((function() {
+  ko.dependentObservable(function() {
     var jobIdFind;
     jobIdFind = viewModel.selectedJobId();
     if (jobIdFind) {
@@ -67,13 +68,29 @@
     } else {
       return viewModel.selectedJob(null);
     }
-  }), viewModel);
+  });
+
+  viewModel.currentJobsFilterd = ko.dependentObservable(function() {
+    var currentJobs, filter;
+    currentJobs = viewModel.currentJobs();
+    filter = viewModel.filter();
+    return currentJobs.filter(function(j) {
+      if (filter === "running") {
+        return j.CurrentStatus === "Running";
+      } else if (filter === "failing") {
+        return j.Health === "Bad";
+      }
+      return true;
+    });
+  });
 
   window.worksViewModel = viewModel;
 
   ko.applyBindings(viewModel);
 
   ko.linkObservableToUrl(viewModel.selectedJobId, "jobId");
+
+  ko.linkObservableToUrl(viewModel.filter, "filter");
 
   viewModel.refresh();
 

@@ -4,7 +4,8 @@ $(document).ajaxError (ev, xhr, settings, errorThrown) ->
 viewModel =
     selectedJobId: ko.observable()
     selectedJob: ko.observable()
-    currentJobs: ko.observableArray([])
+    currentJobs: ko.observableArray([])    
+    filter: ko.observable()    
     
     # Stats
     pendingJobsCount: ko.observable()
@@ -49,18 +50,29 @@ viewModel =
             cache: false
             success: (data, status, xhr) -> c(data)
 
-ko.dependentObservable (-> 
+ko.dependentObservable -> 
     jobIdFind = viewModel.selectedJobId()
     if (jobIdFind)
 	    viewModel.get("Stats/Work/#{jobIdFind}/?v=1", viewModel.selectedJob)
     else
-        viewModel.selectedJob null            
-	), viewModel
+        viewModel.selectedJob null	
+
+
+viewModel.currentJobsFilterd = ko.dependentObservable -> 
+        currentJobs = viewModel.currentJobs()
+        filter = viewModel.filter()
+        currentJobs.filter (j) ->
+            if filter == "running"
+                return j.CurrentStatus == "Running"
+            else if filter == "failing"
+                return j.Health == "Bad"
+                
+            return true
 
 window.worksViewModel = viewModel
 ko.applyBindings(viewModel)
 
 ko.linkObservableToUrl(viewModel.selectedJobId, "jobId")
+ko.linkObservableToUrl(viewModel.filter, "filter")
 
-#ko.dependentObservable (-> viewModel.refresh()), viewModel
 viewModel.refresh()
