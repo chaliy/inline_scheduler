@@ -15,9 +15,9 @@ namespace InlineScheduler
 
         private readonly Timer _timer;
 
-        public Scheduler(IWorkContext context = null)
+        public Scheduler(ISchedulerContext context = null)
         {
-            context = context ?? new DefaultWorkContext();
+            context = context ?? new DefaultSchedulerContext();
             _work = new WorkBag(context);
             _itemFactory = new WorkItemFactory(context);
             _stopped = true;
@@ -46,17 +46,28 @@ namespace InlineScheduler
                     }
                 }
             }   
+        }        
+        
+        public SchedulerStats GatherStats()
+        {
+            return new SchedulerStats
+            {
+                Overal = GatherOveralStats(),
+                CurrentJobs = StatsHelper.GatherCurrentJobs(_work)
+            };
         }
 
-        public SchedulerStats Stats
+        public OveralStats GatherOveralStats()
         {
-            get
-            {
-                var stats = StatsHelper.GatherOveralStatistics(_work);
-                stats.IsStopped = _stopped;
-                stats.StartTime = _sartTime;
-                return stats;
-            }
+            var stats = StatsHelper.GatherOveralStatistics2(_work);
+            stats.IsStopped = _stopped;
+            stats.StartTime = _sartTime;
+            return stats;            
+        }
+
+        public SchedulerJobStats GatherJobStats(string workKey)
+        {
+            return StatsHelper.GatherJobStats(_work, workKey);
         }
 
         public bool IsStopped { get { return _stopped; } }
@@ -64,7 +75,7 @@ namespace InlineScheduler
         {
             get
             {
-                return Stats.RunningJobs > 0;
+                return GatherOveralStats().RunningJobs > 0;
             }
         }
 

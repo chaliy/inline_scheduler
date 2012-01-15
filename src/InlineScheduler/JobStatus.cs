@@ -1,10 +1,10 @@
 ﻿namespace InlineScheduler
 {
-    public enum SchedulerJobStatus
+    public enum JobStatus
     {
         Pending,
         Holded,
         Scheduled,
         Running
-    }               
+    }
 }

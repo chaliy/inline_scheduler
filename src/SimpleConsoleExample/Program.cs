@@ -34,7 +34,7 @@ namespace SimpleConsoleExample
                 var key = Console.ReadKey();
                 if (key.Key == ConsoleKey.S)
                 {
-                    Console.WriteLine("tats>> " + scheduler.Stats);
+                    Console.WriteLine("tats>> " + scheduler.GatherOveralStats());
                 }
                 else
                 {

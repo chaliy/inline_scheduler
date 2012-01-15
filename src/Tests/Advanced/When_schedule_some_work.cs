@@ -21,13 +21,13 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_schedule_all_work_items()
         {
-            _scheduler.Stats.CurrentJobs.Should().HaveCount(2);
+            _scheduler.GatherStats().CurrentJobs.Should().HaveCount(2);
         }
 
         [Test]
         public void Should_add_description_to_work_item()
         {
-            _scheduler.Stats.CurrentJobs.First(x => x.WorkKey == "Foo1").Description.Should().Be("Description for Foo1");
+            _scheduler.GatherStats().CurrentJobs.First(x => x.WorkKey == "Foo1").Description.Should().Be("Description for Foo1");
         }
     }
 }

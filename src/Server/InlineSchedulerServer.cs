@@ -24,8 +24,8 @@ namespace InlineScheduler.Server
             config.Formatters.Remove(config.Formatters.JsonValueFormatter);            
             config.Formatters.Insert(0, new JsonNetFormatter());
 
-            config.MaxReceivedMessageSize = 16777216;
-            config.MaxBufferSize = 16777216;
+            config.MaxReceivedMessageSize = 16777216; // 16M
+            config.MaxBufferSize = 16777216; // 16M
 
             RouteTable.Routes.MapServiceRoute<SchedulerService>(prefix, config);
 

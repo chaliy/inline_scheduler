@@ -4,9 +4,9 @@ namespace InlineScheduler.Advanced
 {
     public class WorkItemFactory
     {
-        private readonly IWorkContext _context;
+        private readonly ISchedulerContext _context;
 
-        public WorkItemFactory(IWorkContext context)
+        public WorkItemFactory(ISchedulerContext context)
         {
             _context = context;
         }

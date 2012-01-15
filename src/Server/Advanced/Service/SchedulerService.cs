@@ -28,13 +28,13 @@ namespace InlineScheduler.Server.Advanced.Service
         [WebGet(UriTemplate = "Stats")]
         public SchedulerStats Stats()
         {
-            return _scheduler.Stats;
+            return _scheduler.GatherStats();
         }
 
         [WebGet(UriTemplate = "Stats/Work/{workKey}/")]
         public SchedulerJobStats WorkStats(string workKey)
         {
-            return _scheduler.Stats.CurrentJobs.FirstOrDefault(x => x.WorkKey == workKey);
+            return _scheduler.GatherJobStats(workKey);
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "Work/{workKey}/Force")]

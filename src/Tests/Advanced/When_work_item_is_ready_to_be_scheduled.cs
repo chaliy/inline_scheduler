@@ -13,7 +13,7 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            var ctx = new TestWorkContext();
+            var ctx = new TestSchedulerContext();
             // Make workitem think that it was created yesterday
             ctx.MoveToYesterday();            
             _item = WorkItemFactory.Create(ctx);
@@ -29,7 +29,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_scheduled() 
         {
-            _item.Status.Should().Be(WorkStatus.Scheduled);                       
+            _item.Status.Should().Be(InlineScheduler.Advanced.WorkStatus.Scheduled);                       
         }
     }
 }

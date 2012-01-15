@@ -2,7 +2,6 @@
 using InlineScheduler.Advanced;
 using FluentAssertions;
 using System.Threading;
-using System;
 
 namespace InlineScheduler.Tests.Advanced
 {
@@ -13,7 +12,7 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            var ctx = new TestWorkContext();            
+            var ctx = new TestSchedulerContext();            
             _item = WorkItemFactory.Create(ctx);            
 
             // Make item think that now tomorrow, so 
@@ -36,7 +35,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_spending() 
         {
-            _item.Status.Should().Be(WorkStatus.Pending);                       
+            _item.Status.Should().Be(InlineScheduler.Advanced.WorkStatus.Pending);                       
         }
 
         [Test]

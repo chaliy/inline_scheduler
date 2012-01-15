@@ -1,17 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System;
-using System.Threading.Tasks;
 
 namespace InlineScheduler.Advanced
 {
     public class WorkBag : IEnumerable<WorkItem>
     {
-        private readonly IWorkContext _context;
+        private readonly ISchedulerContext _context;
         private readonly ConcurrentBag<WorkItem> _items = new ConcurrentBag<WorkItem>();
 
-        public WorkBag(IWorkContext context)
+        public WorkBag(ISchedulerContext context)
         {
             _context = context;
         }

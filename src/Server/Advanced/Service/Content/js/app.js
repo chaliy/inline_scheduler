@@ -1,12 +1,14 @@
 (function() {
   var viewModel;
+
   $(document).ajaxError(function(ev, xhr, settings, errorThrown) {
     return alert(xhr.responseText);
   });
+
   viewModel = {
-    selectedWorkId: ko.observable(),
-    selectedWork: ko.observable(),
-    currentWorks: ko.observableArray([]),
+    selectedJobId: ko.observable(),
+    selectedJob: ko.observable(),
+    currentJobs: ko.observableArray([]),
     pendingJobsCount: ko.observable(),
     scheduledJobsCount: ko.observable(),
     runningJobsCount: ko.observable(),
@@ -18,24 +20,23 @@
     stop: function() {
       return viewModel.post("Stop");
     },
-    force: function(workId) {
-      return viewModel.post("Work/" + workId + "/Force");
+    force: function(jobId) {
+      return viewModel.post("Work/" + jobId + "/Force");
     },
     refresh: function() {
       viewModel.inProgress(true);
       return viewModel.get("Stats?v=1", function(s) {
-        var currentWorks;
-        viewModel.pendingJobsCount(s.PendingJobs);
-        viewModel.scheduledJobsCount(s.ScheduledJobs);
-        viewModel.runningJobsCount(s.RunningJobs);
-        viewModel.isStopped(s.IsStopped);
-        currentWorks = $.map(s.CurrentJobs, function(j) {
+        viewModel.pendingJobsCount(s.Overal.PendingJobs);
+        viewModel.scheduledJobsCount(s.Overal.ScheduledJobs);
+        viewModel.runningJobsCount(s.Overal.RunningJobs);
+        viewModel.isStopped(s.Overal.IsStopped);
+        viewModel.currentJobs($.map(s.CurrentJobs, function(j) {
           j.force = function() {
             return viewModel.force(j.WorkKey);
           };
+          j.Report = j.Report.replace(/\r\n/g, "<br/>");
           return j;
-        });
-        viewModel.currentWorks(currentWorks);
+        }));
         return viewModel.inProgress(false);
       });
     },
@@ -57,17 +58,23 @@
       });
     }
   };
+
   ko.dependentObservable((function() {
-    var workIdFind;
-    workIdFind = viewModel.selectedWorkId();
-    if (workIdFind) {
-      return viewModel.get("Stats/Work/" + workIdFind + "/?v=1", viewModel.selectedWork);
+    var jobIdFind;
+    jobIdFind = viewModel.selectedJobId();
+    if (jobIdFind) {
+      return viewModel.get("Stats/Work/" + jobIdFind + "/?v=1", viewModel.selectedJob);
     } else {
-      return viewModel.selectedWork(null);
+      return viewModel.selectedJob(null);
     }
   }), viewModel);
+
   window.worksViewModel = viewModel;
+
   ko.applyBindings(viewModel);
-  ko.linkObservableToUrl(viewModel.selectedWorkId, "workId");
+
+  ko.linkObservableToUrl(viewModel.selectedJobId, "jobId");
+
   viewModel.refresh();
+
 }).call(this);
