@@ -30,7 +30,7 @@ namespace InlineScheduler.Server
             RouteTable.Routes.MapServiceRoute<SchedulerService>(prefix, config);
 
             HostingRegistration.Register(scheduler);
-        }
+        }        
 
     }
 }

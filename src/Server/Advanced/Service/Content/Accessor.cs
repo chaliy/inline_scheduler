@@ -17,9 +17,10 @@ namespace InlineScheduler.Server.Advanced.Service.Content
                 path = "index.html";
             }
 
-            var extension = Regex.Match(path, "\\.[^\\.\\?]*[^\\?]*").Value.ToLower();
+            var clearPath = Regex.Replace(path, "\\?[^\\?]*", "");
+            var extension = Regex.Match(clearPath, "\\.[^\\.\\?]*$").Value.ToLower();
 
-            var resourceName = typeof (Accessor).Namespace + "." + path.Replace("/", ".");
+            var resourceName = typeof(Accessor).Namespace + "." + clearPath.Replace("/", ".");
             var raw = typeof (Accessor).Assembly.GetManifestResourceStream(resourceName);
             if (raw == null)
             {
@@ -47,7 +48,7 @@ namespace InlineScheduler.Server.Advanced.Service.Content
                     break;
             }
 
-            return new HttpResponseMessage() { Content = content };            
+            return new HttpResponseMessage { Content = content };            
         }
     }
 }
