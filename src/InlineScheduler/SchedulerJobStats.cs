@@ -7,7 +7,7 @@ namespace InlineScheduler
     {
         public string WorkKey { get; set; }
         public string Description { get; set; }
-        public SchedulerJobStatus CurrentStatus { get; set; }
+        public JobStatus CurrentStatus { get; set; }
 
         public DateTime? LastRunStarted { get; set; }
         public DateTime? LastRunCompleted { get; set; }

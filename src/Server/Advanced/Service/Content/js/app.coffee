@@ -2,9 +2,10 @@ $(document).ajaxError (ev, xhr, settings, errorThrown) ->
     alert(xhr.responseText)
 
 viewModel =
-    selectedWorkId: ko.observable()
-    selectedWork: ko.observable()
-    currentWorks: ko.observableArray([])
+    selectedJobId: ko.observable()
+    selectedJob: ko.observable()
+    currentJobs: ko.observableArray([])    
+    filter: ko.observable()    
     
     # Stats
     pendingJobsCount: ko.observable()
@@ -18,21 +19,21 @@ viewModel =
     # Actions
     start: -> viewModel.post "Start"
     stop: -> viewModel.post "Stop"
-    force: (workId) -> viewModel.post "Work/#{workId}/Force"
+    force: (jobId) -> viewModel.post "Work/#{jobId}/Force"
 
     refresh: -> 
         viewModel.inProgress(true)        
         viewModel.get("Stats?v=1", (s) -> 
             # Stats
-            viewModel.pendingJobsCount(s.PendingJobs)
-            viewModel.scheduledJobsCount(s.ScheduledJobs)
-            viewModel.runningJobsCount(s.RunningJobs)
-            viewModel.isStopped(s.IsStopped)
-            # Data
-            currentWorks = $.map(s.CurrentJobs, (j) ->
-                    j.force = -> viewModel.force(j.WorkKey)
-                    j )
-            viewModel.currentWorks(currentWorks)
+            viewModel.pendingJobsCount(s.Overal.PendingJobs)
+            viewModel.scheduledJobsCount(s.Overal.ScheduledJobs)
+            viewModel.runningJobsCount(s.Overal.RunningJobs)
+            viewModel.isStopped(s.Overal.IsStopped)
+            # Data            
+            viewModel.currentJobs($.map(s.CurrentJobs, (j) ->
+                                    j.force = -> viewModel.force(j.WorkKey)
+                                    j.Report = j.Report.replace(/\r\n/g, "<br/>")
+                                    j ))
 
             viewModel.inProgress(false))
 
@@ -44,23 +45,36 @@ viewModel =
     get: (u, c) ->
         $.ajax
             url: u
-            context: document.body
+            context: document.body            
             dataType: "json"
             cache: false
             success: (data, status, xhr) -> c(data)
 
-ko.dependentObservable (-> 
-    workIdFind = viewModel.selectedWorkId()
-    if (workIdFind)
-	    viewModel.get("Stats/Work/#{workIdFind}/?v=1", viewModel.selectedWork)
+ko.dependentObservable -> 
+    jobIdFind = viewModel.selectedJobId()
+    if (jobIdFind)
+	    viewModel.get("Stats/Work/#{jobIdFind}/?v=1", (s) -> 
+            s.force = -> viewModel.force(s.WorkKey)
+            viewModel.selectedJob(s))
     else
-        viewModel.selectedWork null            
-	), viewModel
+        viewModel.selectedJob null	
+
+
+viewModel.currentJobsFilterd = ko.dependentObservable -> 
+        currentJobs = viewModel.currentJobs()
+        filter = viewModel.filter()
+        currentJobs.filter (j) ->
+            if filter == "running"
+                return j.CurrentStatus == "Running"
+            else if filter == "failing"
+                return j.Health == "Bad"
+                
+            return true
 
 window.worksViewModel = viewModel
 ko.applyBindings(viewModel)
 
-ko.linkObservableToUrl(viewModel.selectedWorkId, "workId")
+ko.linkObservableToUrl(viewModel.selectedJobId, "jobId")
+ko.linkObservableToUrl(viewModel.filter, "filter")
 
-#ko.dependentObservable (-> viewModel.refresh()), viewModel
 viewModel.refresh()

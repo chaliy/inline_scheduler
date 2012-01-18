@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,7 +10,8 @@
 	<meta name="description" content="">
 	<meta name="author" content="Mike Chaliy">
 		    		    	
-    <link rel="stylesheet" href="//twitter.github.com/bootstrap/1.3.0/bootstrap.min.css" />
+	<!--<link rel="stylesheet" href="//twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" />-->
+    <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body class="container">
@@ -17,67 +19,89 @@
     <header class="row">
         <h1 class="span12">Inline Scheduler</h1>
 
-        <div class="span4" data-bind="css: { loading: inProgress }">
-            <a class="btn" data-bind="click: start">Start</a>
-            <a class="btn" data-bind="click: stop">Stop</a>
+        <div class="span4" data-bind="css: { loading: inProgress() }">
+            <a class="btn" data-bind="click: start, visible: isStopped()">Start</a>
+            <a class="btn important" data-bind="click: stop, visible: !isStopped()">Stop</a>
         </div>
     </header>
            
     <div>
-        <!--<a id="refresh-stats-btn" class="btn primary">Refresh</a> -->                
-    <strong data-bind="visible: isStopped">Stopped</strong>
-    <p>
-        Pending: <span data-bind="text: pendingJobsCount"></span>,
-        scheduled: <span data-bind="text: scheduledJobsCount"></span>,
-        running: <span data-bind="text: runningJobsCount"></span>.
-    </p>        
-    <!--<em>Last generated at ${currentTime()}</em>-->
-        
+        <strong data-bind="visible: isStopped">Stopped</strong>
+        <p>
+            Pending: <span data-bind="text: pendingJobsCount"></span>,
+            scheduled: <span data-bind="text: scheduledJobsCount"></span>,
+            running: <span data-bind="text: runningJobsCount"></span>.
+        </p>        
     </div>
+    
+    <hr/>
+
     <div id="main">
         
         <!-- Work List -->
-        <table data-bind="visible: !selectedWork()">
-        <thead>
-            <tr>
-                <th>Key</th>
-                <th>Status</th>
-                <th>Last Run</th>            
-                <th>Report</th>            
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody data-bind="template: { name: 'worksListItemTemplate', foreach: currentWorks }"></tbody>
-        </table>
-        <script type="text/html" id="worksListItemTemplate">
-            <tr>
-                <td>                
-                    <a href="#" data-bind="click: function() { worksViewModel.selectedWorkId($data.WorkKey) }">${WorkKey}</a>
-                    {{if Description }}
-                    <br/>
-                    <em>${Description}</em>
-                    {{/if}}
-                </td>
-                <td>${CurrentStatus}</td>
-                <td>${formateToTime(LastRunStarted)}-${formateToTime(LastRunCompleted)}</td>
-                <td data-bind="template: { name: 'workReportTemplate' }"></td>                
-                <td><a class="btn primary" href="#" data-bind="click: force">Force</a></td>
-            </tr>
-        </script>
+        <div data-bind="visible: !selectedJob()" class="row">
+            <div class="span4">
+                <h3>Show</h3>
+                <ul>
+                    <li><a href="#" data-bind="click: function() { worksViewModel.filter(null) }">All</a></li>
+                    <li><a href="#" data-bind="click: function() { worksViewModel.filter('running') }">Running</a></li>
+                    <li><a href="#" data-bind="click: function() { worksViewModel.filter('failing') }">Failing</a></li>
+                </ul>
+            </div>
+            <table class="span12">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Status</th>                
+                        <th>Report</th>            
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="template: { name: 'worksListItemTemplate', foreach: currentJobsFilterd }"></tbody>
+            </table>
+            <script type="text/html" id="worksListItemTemplate">
+                <tr>
+                    <td>                
+                        <a href="#" data-bind="click: function() { worksViewModel.selectedJobId($data.WorkKey) }">${WorkKey}</a>
+                        {{if Description }}
+                        <br/>
+                        <em>${Description}</em>
+                        {{/if}}
+                    </td>
+                    <td>${CurrentStatus}</td>
+                    <td>
+                        {{if Health == "Bad" }}
+                        <span class="label important">Important</span><br/>
+                        {{/if}}
+                        {{html Report}}</td>                
+                    <td><a class="btn primary" href="#" data-bind="click: force">Force</a></td>
+                </tr>
+            </script>
         
+        </div>                
         
         <!-- Work Details -->
-        <div data-bind="template: { name: 'workDetailsTemplate', data: selectedWork }"></div>
-        <script type="text/html" id="workDetailsTemplate">    
+        <div data-bind="template: { name: 'workDetailsTemplate', data: selectedJob }"></div>
+        <script type="text/html" id="workDetailsTemplate">                                        
             <h3>Work Details: ${WorkKey}</h3>   
             <ul class="breadcrumb">
                 <li><a href="#">All work</a><span class="divider">/</span></li>
-                <li class="active">${WorkKey}</li>    
+                <li class="active">${WorkKey}</li>
             </ul>
-            {{if Description }}
-            <p><em>${Description}</em></p>
-            {{/if}}
-            <div data-bind="template: { name: 'workReportTemplate' }"></div>
+            <div class="row">
+                <div class="span12">
+                    {{if Description }}
+                    <p><em>${Description}</em></p>
+                    {{/if}}
+                    <div data-bind="template: { name: 'workReportTemplate' }"></div>
+                </div>            
+                <div class="span4">
+                    <h3>Actions</h3>
+                    <ul>
+                        <li><a href="#" data-bind="click: force" title="Forces given job to run nearest time.">Force</a></li>
+                    </ul>
+                </div>
+            </div>
         </script>
         
         <!-- Utils -->        
@@ -95,7 +119,7 @@
                 {{if $value.ResultMessage }}
                 <pre>${$value.ResultMessage}</pre>
                 {{/if}}
-            </dd>        
+            </dd>
 	    {{/each}}
         </dl>    
         </script>
@@ -109,8 +133,12 @@
     </footer>    
 
     
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>-->
+    <!-- TODO Should include local version only if external is not avaialble -->
+    <script src="js/vendor/jquery/jquery-1.6.4.min.js"></script>    
+    <!--<script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>-->
+    <!-- TODO Should include local version only if external is not avaialble -->
+    <script src="js/vendor/jquery.tmpl/jquery.tmpl.min.js"></script>
     <script src="js/vendor/knockout/knockout-1.2.1.js"></script>
     <script src="js/vendor/jquery.address/jquery.address-1.4.min.js"></script>
     <script src="js/vendor/knockout/knockout.address.js"></script>

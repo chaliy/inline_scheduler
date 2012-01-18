@@ -46,8 +46,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Advanced\IWorkContext.cs" />
-    <Compile Include="Advanced\DefaultWorkContext.cs" />
+    <Compile Include="Advanced\ISchedulerContext.cs" />
+    <Compile Include="Advanced\DefaultSchedulerContext.cs" />
     <Compile Include="Advanced\State\TempFolderStateProvider.cs" />
     <Compile Include="Advanced\State\IStateProvider.cs" />
     <Compile Include="Advanced\State\MemoryStateProvider.cs" />
@@ -59,13 +59,16 @@
     <Compile Include="Advanced\WorkBag.cs" />
     <Compile Include="Advanced\WorkItem.cs" />
     <Compile Include="Advanced\WorkStatus.cs" />
+    <Compile Include="JobHealth.cs" />
+    <Compile Include="SchedulerStats.cs" />
+    <Compile Include="MinimalJobStats.cs" />
+    <Compile Include="OveralStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler.cs" />
     <Compile Include="SchedulerJobRunResult.cs" />
     <Compile Include="SchedulerJobRunStats.cs" />
     <Compile Include="SchedulerJobStats.cs" />
-    <Compile Include="SchedulerStats.cs" />
-    <Compile Include="SchedulerJobStatus.cs" />
+    <Compile Include="JobStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

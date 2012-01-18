@@ -7,7 +7,7 @@ namespace InlineScheduler.Advanced
 {
     public class WorkItem
     {
-        private readonly IWorkContext _context;
+        private readonly ISchedulerContext _context;
         private readonly string _workKey;        
         private readonly Func<Task> _factory;
 
@@ -18,7 +18,7 @@ namespace InlineScheduler.Advanced
         private readonly List<WorkRun> _previousRuns = new List<WorkRun>();
         private readonly TimeSpan _interval;
 
-        public WorkItem(IWorkContext context, string workKey, Func<Task> factory, TimeSpan interval, WorkState presavedState)
+        public WorkItem(ISchedulerContext context, string workKey, Func<Task> factory, TimeSpan interval, WorkState presavedState)
         {
             _context = context;
             _workKey = workKey;

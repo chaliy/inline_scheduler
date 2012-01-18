@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.Serialization.Json;
+﻿using System;
 using System.IO;
-using System.Xml;
-using System.Text;
-using System.IO.IsolatedStorage;
-using System;
+using System.Runtime.Serialization.Json;
+
 namespace InlineScheduler.Advanced.State
 {
     public class TempFolderStateProvider : IStateProvider

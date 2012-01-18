@@ -13,7 +13,7 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_work_item() 
         {
-            _item = new WorkItem(new DefaultWorkContext(), "Foo1", () =>
+            _item = new WorkItem(new DefaultSchedulerContext(), "Foo1", () =>
             {
                 return Task.Factory.StartNew(() => Console.WriteLine("Foo1"));
             }, TimeSpan.FromMinutes(10), null);
@@ -22,7 +22,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_pending() 
         {
-            _item.Status.Should().Be(WorkStatus.Pending);                       
+            _item.Status.Should().Be(InlineScheduler.Advanced.WorkStatus.Pending);                       
         }
     }
 }

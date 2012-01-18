@@ -20,13 +20,13 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_generate_stats()
         {
-            _scheduler.Stats.Should().NotBeNull();
+            _scheduler.GatherStats().Should().NotBeNull();
         }
 
         [Test]
         public void Should_stats_for_all_work_items()
         {
-            _scheduler.Stats.CurrentJobs.Should().HaveCount(2);
+            _scheduler.GatherStats().CurrentJobs.Should().HaveCount(2);
         }        
     }
 }

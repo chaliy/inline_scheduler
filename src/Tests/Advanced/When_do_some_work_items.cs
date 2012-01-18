@@ -18,7 +18,7 @@ namespace InlineScheduler.Tests.Advanced
         [TestFixtureSetUp]
         public void Given_scheduler_with_some_work()
         {
-            var ctx = new TestWorkContext();
+            var ctx = new TestSchedulerContext();
             _scheduler = new Scheduler(ctx);
 
             _scheduler.Schedule("Foo1", () => { _foo1WorkDone = true; }, TimeSpan.FromMinutes(10));
@@ -29,8 +29,8 @@ namespace InlineScheduler.Tests.Advanced
             ctx.MoveToTommorrow();
 
             _scheduler.Start();
-            
-            Wait.Unitl(() => _scheduler.Stats.RunningJobs + _scheduler.Stats.ScheduledJobs == 0);
+
+            Wait.Unitl(() => _scheduler.GatherOveralStats().RunningJobs + _scheduler.GatherOveralStats().ScheduledJobs == 0);
         }
 
         [TestFixtureTearDown]

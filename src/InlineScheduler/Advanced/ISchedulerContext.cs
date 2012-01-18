@@ -1,8 +1,9 @@
 ﻿using System;
 using InlineScheduler.Advanced.State;
+
 namespace InlineScheduler.Advanced
 {
-    public interface IWorkContext
+    public interface ISchedulerContext
     {
         DateTime CurrentTime { get; }        
         int GetNextRandom(int from, int to);

@@ -9,9 +9,9 @@ namespace InlineScheduler.Tests.Advanced
     {        
     }
 
-    class TestWorkContext : IWorkContext
+    class TestSchedulerContext : ISchedulerContext
     {        
-        public TestWorkContext()
+        public TestSchedulerContext()
         {
             CurrentTime = DateTime.Now;
             State = new MemoryStateProvider();
@@ -45,7 +45,7 @@ namespace InlineScheduler.Tests.Advanced
 
     class WorkItemFactory
     {        
-        public static WorkItem Create(IWorkContext ctx) 
+        public static WorkItem Create(ISchedulerContext ctx) 
         {
             return new InlineScheduler.Advanced.WorkItemFactory(ctx).Create("Foo1", () =>
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace InlineScheduler.Advanced.State
 {
     public class MemoryStateProvider : IStateProvider

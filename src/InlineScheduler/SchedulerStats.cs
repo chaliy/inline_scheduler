@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace InlineScheduler
 {
     public class SchedulerStats
     {
-        public bool IsStopped { get; set; }
-        public int PendingJobs { get; set; }
-        public int ScheduledJobs { get; set; }
-        public int RunningJobs { get; set; }
-        public DateTime StartTime { get; set; }
-
-        public List<SchedulerJobStats> CurrentJobs { get; set; }
+        public OveralStats Overal { get; set; }
+        public List<MinimalJobStats> CurrentJobs { get; set; }
 
         public override string ToString()
         {
-            return "Pending: " + PendingJobs + "; Scheduled: " + ScheduledJobs + " Running: " + RunningJobs + "; Current: " + CurrentJobs.Count;
+            if (Overal == null)
+            {
+                return "N/A";
+            }
+            return Overal.ToString();
         }
-    }
+
+        public SchedulerStats()
+        {
+            Overal = new OveralStats();
+            CurrentJobs = new List<MinimalJobStats>();
+        }
+    }    
 }

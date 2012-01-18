@@ -18,19 +18,19 @@ namespace InlineScheduler.Server
             }
            
         	var config = new HttpConfiguration();
-            config.CreateInstance = (t, c, m) => new SchedulerService(scheduler);            
+            config.CreateInstance = (t, c, m) => new SchedulerService(scheduler);
 
             config.Formatters.Remove(config.Formatters.JsonFormatter);
-            config.Formatters.Remove(config.Formatters.JsonValueFormatter);            
+            config.Formatters.Remove(config.Formatters.JsonValueFormatter);
             config.Formatters.Insert(0, new JsonNetFormatter());
 
-            config.MaxReceivedMessageSize = 16777216;
-            config.MaxBufferSize = 16777216;
+            config.MaxReceivedMessageSize = 16777216; // 16M
+            config.MaxBufferSize = 16777216; // 16M
 
             RouteTable.Routes.MapServiceRoute<SchedulerService>(prefix, config);
 
             HostingRegistration.Register(scheduler);
-        }
+        }        
 
     }
 }

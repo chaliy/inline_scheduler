@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Web.Hosting;
-using System.Threading;
 using InlineScheduler.Server.Utility;
 
 namespace InlineScheduler.Server.Advanced.Hosting
