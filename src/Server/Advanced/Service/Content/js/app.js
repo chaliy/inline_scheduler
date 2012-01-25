@@ -79,7 +79,7 @@
     var currentJobs, filter;
     currentJobs = viewModel.currentJobs();
     filter = viewModel.filter();
-    return currentJobs.filter(function(j) {
+    return $.grep(currentJobs, function(j) {
       if (filter === "running") {
         return j.CurrentStatus === "Running";
       } else if (filter === "failing") {

@@ -63,7 +63,7 @@ ko.dependentObservable ->
 viewModel.currentJobsFilterd = ko.dependentObservable -> 
         currentJobs = viewModel.currentJobs()
         filter = viewModel.filter()
-        currentJobs.filter (j) ->
+        $.grep currentJobs, (j) ->
             if filter == "running"
                 return j.CurrentStatus == "Running"
             else if filter == "failing"
