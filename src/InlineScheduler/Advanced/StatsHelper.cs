@@ -24,10 +24,26 @@ namespace InlineScheduler.Advanced
             };
         }
 
-        public static List<MinimalJobStats> GatherCurrentJobs(WorkBag work)
+        public static List<MinimalJobStats> GatherCurrentJobs(WorkBag work, string filter)
         {
             return work
                 .Reverse()
+                .Where(x => 
+                {
+                    if (String.IsNullOrWhiteSpace(filter) || filter == "all")
+                    {
+                        return true;
+                    }
+                    if (filter == "running" && x.Status == WorkStatus.Running) 
+                    {
+                        return true;
+                    }
+                    if (filter == "failing" && GatherJobHealth(x) == JobHealth.Bad)
+                    {
+                        return true;
+                    }
+                    return false;
+                })
                 .Select(x => new MinimalJobStats
                 {
                     WorkKey = x.WorkKey,

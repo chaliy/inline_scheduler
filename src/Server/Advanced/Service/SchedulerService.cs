@@ -24,10 +24,10 @@ namespace InlineScheduler.Server.Advanced.Service
             return Accessor.Get(path);
         }
 
-        [WebGet(UriTemplate = "Stats")]
-        public SchedulerStats Stats()
+        [WebGet(UriTemplate = "Stats/{filter}")]
+        public SchedulerStats Stats(string filter = null)
         {
-            return _scheduler.GatherStats();
+            return _scheduler.GatherStats(filter);
         }
 
         [WebGet(UriTemplate = "Stats/Work/{workKey}/")]
