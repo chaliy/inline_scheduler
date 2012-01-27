@@ -64,7 +64,7 @@
     var jobIdFind;
     jobIdFind = self.selectedJobId();
     if (jobIdFind) {
-      return self.get("Stats/Work/" + jobIdFind + "/?v=1", function(s) {
+      return self.get("Stats/Job/" + jobIdFind + "/?v=1", function(s) {
         s.force = function() {
           return self.force(s.WorkKey);
         };
@@ -81,7 +81,7 @@
     filter = self.filter();
     if (filter) {
       self.selectedJob(null);
-      return self.get("Stats/" + filter + "?v=1", function(s) {
+      return self.get("Stats/List/" + filter + "/?v=1", function(s) {
         self.pendingJobsCount(s.Overal.PendingJobs);
         self.scheduledJobsCount(s.Overal.ScheduledJobs);
         self.runningJobsCount(s.Overal.RunningJobs);

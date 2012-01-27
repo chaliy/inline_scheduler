@@ -47,7 +47,7 @@ self.get = (u, c) ->
 ko.dependentObservable -> 
     jobIdFind = self.selectedJobId()
     if (jobIdFind)
-	    self.get("Stats/Work/#{jobIdFind}/?v=1", (s) -> 
+	    self.get("Stats/Job/#{jobIdFind}/?v=1", (s) -> 
             s.force = -> self.force(s.WorkKey)
             self.currentPage("job")
             self.selectedJob(s))
@@ -58,7 +58,7 @@ ko.dependentObservable ->
         filter = self.filter()
         if filter
             self.selectedJob(null)
-            self.get("Stats/#{filter}?v=1", (s) -> 
+            self.get("Stats/List/#{filter}/?v=1", (s) -> 
                 # Stats
                 self.pendingJobsCount(s.Overal.PendingJobs)
                 self.scheduledJobsCount(s.Overal.ScheduledJobs)
