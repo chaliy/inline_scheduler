@@ -9,8 +9,7 @@
 		    
 	<meta name="description" content="">
 	<meta name="author" content="Mike Chaliy">
-		    		    	
-	<!--<link rel="stylesheet" href="//twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" />-->
+		    		    		
     <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/style.css?v=2">
 </head>
@@ -26,7 +25,7 @@
     </header>
            
     <div>
-        <strong data-bind="visible: isStopped">Stopped</strong>
+        <strong data-bind="visible: isStopped()">Stopped</strong>
         <p>
             Pending: <span data-bind="text: pendingJobsCount"></span>,
             scheduled: <span data-bind="text: scheduledJobsCount"></span>,
@@ -36,16 +35,16 @@
     
     <hr/>
 
-    <div id="main">
+    <div id="main" style="display: none">
         
         <!-- Work List -->
-        <div data-bind="visible: !selectedJob()" class="row">
+        <div data-bind="visible: currentPage() == 'list'" class="row">
             <div class="span4">
                 <h3>Show</h3>
                 <ul>
-                    <li><a href="#" data-bind="click: function() { worksViewModel.filter(null) }">All</a></li>
-                    <li><a href="#" data-bind="click: function() { worksViewModel.filter('running') }">Running</a></li>
-                    <li><a href="#" data-bind="click: function() { worksViewModel.filter('failing') }">Failing</a></li>
+                    <li><a href="#filters/all">All</a></li>
+                    <li><a href="#filters/running">Running</a></li>                    
+                    <li><a href="#filters/failing" >Failing</a></li>
                 </ul>
             </div>
             <table class="span12">
@@ -57,12 +56,12 @@
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
-                <tbody data-bind="template: { name: 'worksListItemTemplate', foreach: currentJobsFilterd }"></tbody>
+                <tbody data-bind="template: { name: 'worksListItemTemplate', foreach: currentJobs }"></tbody>
             </table>
             <script type="text/html" id="worksListItemTemplate">
                 <tr>
-                    <td>                
-                        <a href="#" data-bind="click: function() { worksViewModel.selectedJobId($data.WorkKey) }">${WorkKey}</a>
+                    <td>
+                        <a href="#jobs/${WorkKey}">${WorkKey}</a>                        
                         {{if Description }}
                         <br/>
                         <em>${Description}</em>
@@ -85,7 +84,7 @@
         <script type="text/html" id="workDetailsTemplate">                                        
             <h3>Work Details: ${WorkKey}</h3>   
             <ul class="breadcrumb">
-                <li><a href="#">All work</a><span class="divider">/</span></li>
+                <li><a href="#filters/all">All work</a><span class="divider">/</span></li>
                 <li class="active">${WorkKey}</li>
             </ul>
             <div class="row">
@@ -131,18 +130,13 @@
         <p class="pull-right"><a href="#">Back to top</a></p>
         <p>Code licensed under the <a href="http://www.opensource.org/licenses/mit-license.php" target="_blank">MIT</a> and hosted on <a href="https://github.com/chaliy/inline_scheduler">GitHub</a></p>      
     </footer>    
-
-    
-    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>-->
-    <!-- TODO Should include local version only if external is not avaialble -->
-    <script src="js/vendor/jquery/jquery-1.6.4.min.js"></script>    
-    <!--<script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>-->
-    <!-- TODO Should include local version only if external is not avaialble -->
+       
+    <script src="js/vendor/jquery/jquery-1.6.4.min.js"></script>
     <script src="js/vendor/jquery.tmpl/jquery.tmpl.min.js"></script>
     <script src="js/vendor/knockout/knockout-1.2.1.js"></script>
-    <script src="js/vendor/jquery.address/jquery.address-1.4.min.js"></script>
-    <script src="js/vendor/knockout/knockout.address.js"></script>
+    <script src="js/vendor/sammy/sammy.min.js"></script>
 	<script src="js/app.js"></script>	    
+
     <script type="text/javascript">
         function formateToTime(inp) {
             // WTF need something to work with dates in javascript

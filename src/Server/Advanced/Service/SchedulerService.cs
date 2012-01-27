@@ -24,13 +24,19 @@ namespace InlineScheduler.Server.Advanced.Service
             return Accessor.Get(path);
         }
 
-        [WebGet(UriTemplate = "Stats")]
-        public SchedulerStats Stats()
+        //[WebGet(UriTemplate = "Stats/")]
+        //public SchedulerStats Stats()
+        //{
+        //    return _scheduler.GatherStats("all");
+        //}
+
+        [WebGet(UriTemplate = "Stats/List/{filter}/")]
+        public SchedulerStats FilteredStats(string filter)
         {
-            return _scheduler.GatherStats();
+            return _scheduler.GatherStats((filter ?? "all").Trim().ToLower());
         }
 
-        [WebGet(UriTemplate = "Stats/Work/{workKey}/")]
+        [WebGet(UriTemplate = "Stats/Job/{workKey}/")]
         public SchedulerJobStats WorkStats(string workKey)
         {
             return _scheduler.GatherJobStats(workKey);

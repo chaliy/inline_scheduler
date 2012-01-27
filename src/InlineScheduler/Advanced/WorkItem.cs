@@ -59,10 +59,10 @@ namespace InlineScheduler.Advanced
                 _lastCompleteTime = _context.CurrentTime;
 
                 var run = new WorkRun
-                                {
-                                    Started = _lastStartTime.Value,
-                                    Completed = _lastCompleteTime.Value
-                                };
+                {
+                    Started = _lastStartTime.Value,
+                    Completed = _lastCompleteTime.Value
+                };
                     
                 if (t.Status == TaskStatus.Faulted)
                 {                        

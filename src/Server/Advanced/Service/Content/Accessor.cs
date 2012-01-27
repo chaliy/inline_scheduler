@@ -27,7 +27,7 @@ namespace InlineScheduler.Server.Advanced.Service.Content
                 return new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
             }
 
-            var content = new StreamContent(raw);
+            var content = new StreamContent(raw);            
 
             switch (extension)
             {
@@ -48,7 +48,19 @@ namespace InlineScheduler.Server.Advanced.Service.Content
                     break;
             }
 
-            return new HttpResponseMessage { Content = content };            
+            var msg = new HttpResponseMessage { Content = content };
+
+            if (path != "index.html" && path != "js/app.js")
+            {
+                content.Headers.Expires = DateTimeOffset.Now.AddMonths(1);
+                msg.Headers.CacheControl = new CacheControlHeaderValue
+                {
+                    Public = true,
+                    MaxAge = TimeSpan.FromDays(30)
+                };
+            }                     
+
+            return msg;
         }
     }
 }

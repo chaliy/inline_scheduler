@@ -1,102 +1,121 @@
 (function() {
-  var viewModel;
+  var app, self;
 
   $(document).ajaxError(function(ev, xhr, settings, errorThrown) {
     return alert(xhr.responseText);
   });
 
-  viewModel = {
-    selectedJobId: ko.observable(),
-    selectedJob: ko.observable(),
-    currentJobs: ko.observableArray([]),
-    filter: ko.observable(),
-    pendingJobsCount: ko.observable(),
-    scheduledJobsCount: ko.observable(),
-    runningJobsCount: ko.observable(),
-    isStopped: ko.observable(),
-    inProgress: ko.observable(),
-    start: function() {
-      return viewModel.post("Start");
-    },
-    stop: function() {
-      return viewModel.post("Stop");
-    },
-    force: function(jobId) {
-      return viewModel.post("Work/" + jobId + "/Force");
-    },
-    refresh: function() {
-      viewModel.inProgress(true);
-      return viewModel.get("Stats?v=1", function(s) {
-        viewModel.pendingJobsCount(s.Overal.PendingJobs);
-        viewModel.scheduledJobsCount(s.Overal.ScheduledJobs);
-        viewModel.runningJobsCount(s.Overal.RunningJobs);
-        viewModel.isStopped(s.Overal.IsStopped);
-        viewModel.currentJobs($.map(s.CurrentJobs, function(j) {
-          j.force = function() {
-            return viewModel.force(j.WorkKey);
-          };
-          j.Report = j.Report.replace(/\r\n/g, "<br/>");
-          return j;
-        }));
-        return viewModel.inProgress(false);
-      });
-    },
-    post: function(c) {
-      viewModel.inProgress(true);
-      return $.post(c, function() {
-        return viewModel.refresh();
-      });
-    },
-    get: function(u, c) {
-      return $.ajax({
-        url: u,
-        context: document.body,
-        dataType: "json",
-        cache: false,
-        success: function(data, status, xhr) {
-          return c(data);
-        }
-      });
-    }
+  self = this;
+
+  self.selectedJobId = ko.observable();
+
+  self.selectedJob = ko.observable();
+
+  self.currentJobs = ko.observableArray([]);
+
+  self.filter = ko.observable();
+
+  self.pendingJobsCount = ko.observable();
+
+  self.scheduledJobsCount = ko.observable();
+
+  self.runningJobsCount = ko.observable();
+
+  self.isStopped = ko.observable();
+
+  self.inProgress = ko.observable();
+
+  self.currentPage = ko.observable();
+
+  self.start = function() {
+    return self.post("Start");
+  };
+
+  self.stop = function() {
+    return self.post("Stop");
+  };
+
+  self.force = function(jobId) {
+    return self.post("Work/" + jobId + "/Force");
+  };
+
+  self.post = function(c) {
+    self.inProgress(true);
+    return $.post(c, function() {
+      return self.refresh();
+    });
+  };
+
+  self.get = function(u, c) {
+    self.inProgress(true);
+    return $.ajax({
+      url: u,
+      context: document.body,
+      dataType: "json",
+      cache: false,
+      success: function(data, status, xhr) {
+        c(data);
+        return self.inProgress(false);
+      }
+    });
   };
 
   ko.dependentObservable(function() {
     var jobIdFind;
-    jobIdFind = viewModel.selectedJobId();
+    jobIdFind = self.selectedJobId();
     if (jobIdFind) {
-      return viewModel.get("Stats/Work/" + jobIdFind + "/?v=1", function(s) {
+      return self.get("Stats/Job/" + jobIdFind + "/?v=1", function(s) {
         s.force = function() {
-          return viewModel.force(s.WorkKey);
+          return self.force(s.WorkKey);
         };
-        return viewModel.selectedJob(s);
+        self.currentPage("job");
+        return self.selectedJob(s);
       });
     } else {
-      return viewModel.selectedJob(null);
+      return self.selectedJob(null);
     }
   });
 
-  viewModel.currentJobsFilterd = ko.dependentObservable(function() {
-    var currentJobs, filter;
-    currentJobs = viewModel.currentJobs();
-    filter = viewModel.filter();
-    return currentJobs.filter(function(j) {
-      if (filter === "running") {
-        return j.CurrentStatus === "Running";
-      } else if (filter === "failing") {
-        return j.Health === "Bad";
-      }
-      return true;
+  ko.dependentObservable(function() {
+    var filter;
+    filter = self.filter();
+    if (filter) {
+      self.selectedJob(null);
+      return self.get("Stats/List/" + filter + "/?v=1", function(s) {
+        self.pendingJobsCount(s.Overal.PendingJobs);
+        self.scheduledJobsCount(s.Overal.ScheduledJobs);
+        self.runningJobsCount(s.Overal.RunningJobs);
+        self.isStopped(s.Overal.IsStopped);
+        self.currentPage("list");
+        return self.currentJobs($.map(s.CurrentJobs, function(j) {
+          j.force = function() {
+            return self.force(j.WorkKey);
+          };
+          j.Report = j.Report.replace(/\r\n/g, "<br/>");
+          return j;
+        }));
+      });
+    }
+  });
+
+  window.worksViewModel = self;
+
+  ko.applyBindings(self);
+
+  app = $.sammy(function() {
+    this.get("#filters/:filter", function() {
+      return self.filter(this.params.filter);
+    });
+    this.get("#jobs/:jobId", function() {
+      return self.selectedJobId(this.params.jobId);
+    });
+    return this.get("", function() {
+      return self.filter("all");
     });
   });
 
-  window.worksViewModel = viewModel;
+  app.run();
 
-  ko.applyBindings(viewModel);
-
-  ko.linkObservableToUrl(viewModel.selectedJobId, "jobId");
-
-  ko.linkObservableToUrl(viewModel.filter, "filter");
-
-  viewModel.refresh();
+  $("#main").show();
 
 }).call(this);

@@ -49,12 +49,12 @@ namespace InlineScheduler
             }   
         }        
         
-        public SchedulerStats GatherStats()
+        public SchedulerStats GatherStats(string filter = null)
         {
             return new SchedulerStats
             {
                 Overal = GatherOveralStats(),
-                CurrentJobs = StatsHelper.GatherCurrentJobs(_work)
+                CurrentJobs = StatsHelper.GatherCurrentJobs(_work, filter)
             };
         }
 
