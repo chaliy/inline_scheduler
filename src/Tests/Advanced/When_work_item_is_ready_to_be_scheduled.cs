@@ -8,7 +8,7 @@ namespace InlineScheduler.Tests.Advanced
 {
     public class When_work_item_is_ready_to_be_scheduled
     {
-        WorkItem _item;
+        JobItem _item;
 
         [TestFixtureSetUp]
         public void Given_work_item() 
@@ -29,7 +29,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_scheduled() 
         {
-            _item.Status.Should().Be(InlineScheduler.Advanced.WorkStatus.Scheduled);                       
+            _item.Status.Should().Be(InlineScheduler.Advanced.JobStatus.Scheduled);                       
         }
     }
 }

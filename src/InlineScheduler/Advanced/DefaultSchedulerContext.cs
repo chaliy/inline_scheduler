@@ -9,9 +9,12 @@ namespace InlineScheduler.Advanced
         private readonly Random _rand = new Random();
         private readonly IStateProvider _state = new MemoryStateProvider();
 
-        public DefaultSchedulerContext(){ }        
+        public DefaultSchedulerContext(){ }
 
-        public DateTime CurrentTime { get { return _currentTime(); } }
+        public DateTime GetCurrentTime()
+        {
+            return _currentTime();
+        }
 
         public IStateProvider State { get { return _state; } }
 

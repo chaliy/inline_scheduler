@@ -10,14 +10,18 @@ namespace InlineScheduler.Tests.Advanced
     }
 
     class TestSchedulerContext : ISchedulerContext
-    {        
+    {
+        DateTime _currentTime;
         public TestSchedulerContext()
         {
-            CurrentTime = DateTime.Now;
+            _currentTime = DateTime.Now;
             State = new MemoryStateProvider();
         }
-
-        public DateTime CurrentTime { get; set; }
+       
+        public DateTime GetCurrentTime()
+        {
+            return _currentTime;
+        }
 
         public IStateProvider State { get; set; }        
 
@@ -29,28 +33,30 @@ namespace InlineScheduler.Tests.Advanced
         // Helpers
         internal void MoveToTommorrow()
         {
-            CurrentTime = DateTime.Now.AddDays(1);
+            _currentTime = DateTime.Now.AddDays(1);
         }
 
         internal void MoveToYesterday()
         {
-            CurrentTime = DateTime.Now.AddDays(-1);
+            _currentTime = DateTime.Now.AddDays(-1);
         }
 
         internal void MoveToNow()
         {
-            CurrentTime = DateTime.Now;
+            _currentTime = DateTime.Now;
         }        
     }
 
     class WorkItemFactory
     {        
-        public static WorkItem Create(ISchedulerContext ctx) 
+        public static JobItem Create(ISchedulerContext ctx)
         {
-            return new InlineScheduler.Advanced.WorkItemFactory(ctx).Create("Foo1", () =>
+            var definition = JobFactory.Interval("Foo1", () =>
             {
                 return Task.Factory.StartNew(() => Console.WriteLine("Foo1"));
-            }, TimeSpan.FromMinutes(10), "Some");            
+            }, TimeSpan.FromMinutes(10), "Some");
+
+            return new InlineScheduler.Advanced.JobItemFactory(ctx).Create(definition);
         }
     }
 }

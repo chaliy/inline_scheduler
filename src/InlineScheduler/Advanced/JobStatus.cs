@@ -1,6 +1,6 @@
 ﻿namespace InlineScheduler.Advanced
 {
-    public enum WorkStatus
+    public enum JobStatus
     {
         Pending,
         Holded,

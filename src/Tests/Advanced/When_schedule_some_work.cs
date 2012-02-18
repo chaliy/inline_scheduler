@@ -27,7 +27,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_add_description_to_work_item()
         {
-            _scheduler.GatherStats().CurrentJobs.First(x => x.WorkKey == "Foo1").Description.Should().Be("Description for Foo1");
+            _scheduler.GatherStats().CurrentJobs.First(x => x.JobKey == "Foo1").Description.Should().Be("Description for Foo1");
         }
     }
 }

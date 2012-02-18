@@ -8,8 +8,8 @@ namespace InlineScheduler
 {
     public class Scheduler
     {
-        private readonly WorkBag _work;
-        private readonly WorkItemFactory _itemFactory;        
+        private readonly JobManager _work;
+        private readonly JobItemFactory _itemFactory;        
         private readonly DateTime _sartTime;
 
         private bool _stopped;
@@ -19,15 +19,14 @@ namespace InlineScheduler
         public Scheduler(ISchedulerContext context = null)
         {
             context = context ?? new DefaultSchedulerContext();
-            _work = new WorkBag(context);
-            _itemFactory = new WorkItemFactory(context);
+            _work = new JobManager(context);
+            _itemFactory = new JobItemFactory(context);
             _stopped = true;
             _sartTime = DateTime.Now;
             
             // Start timer
             _timer = new Timer(OnTimerElapsed);
             _timer.Change(TimeSpan.Zero, TimeSpan.FromMilliseconds(1000));
-
         }
 
         void OnTimerElapsed(object sender)  
@@ -54,13 +53,13 @@ namespace InlineScheduler
             return new SchedulerStats
             {
                 Overal = GatherOveralStats(),
-                CurrentJobs = StatsHelper.GatherCurrentJobs(_work, filter)
+                CurrentJobs = StatsHelper.GatherCurrentJobs(_work.GetAll(), filter)
             };
         }
 
         public OveralStats GatherOveralStats()
         {
-            var stats = StatsHelper.GatherOveralStatistics2(_work);
+            var stats = StatsHelper.GatherOveralStatistics2(_work.GetAll());
             stats.IsStopped = _stopped;
             stats.StartTime = _sartTime;
             return stats;            
@@ -68,7 +67,7 @@ namespace InlineScheduler
 
         public SchedulerJobStats GatherJobStats(string workKey)
         {
-            return StatsHelper.GatherJobStats(_work, workKey);
+            return StatsHelper.GatherJobStats(_work.GetAll(), workKey);
         }
 
         public bool IsStopped { get { return _stopped; } }
@@ -94,28 +93,30 @@ namespace InlineScheduler
         public void Schedule(string workKey, Action work, TimeSpan interval, string description = null)
         {
             Func<Task> factory = () => Task.Factory.StartNew(work);
-            Schedule(workKey, factory, interval, description);
+            var definition = new JobDefinition(workKey, factory, Schedules.Interval(interval), description);
+            Schedule(definition);
         }
-        
+
         public void Schedule(string workKey, Func<Task> factory, TimeSpan interval, string description = null)
         {
-            if (!_work.IsWorkRegisterd(workKey))
+            var definition = new JobDefinition(workKey, factory, Schedules.Interval(interval), description);
+            Schedule(definition);
+        }
+        
+        public void Schedule(JobDefinition definition)
+        {
+            if (!_work.IsJobRegisterd(definition.JobKey))
             {
-                var item = _itemFactory.Create(workKey, factory, interval, description);
-                _work.Add(item);
+                _work.Register(definition);
             }
         }
 
         /// <summary>
-        ///     Forces work item to run.
+        ///     Forces job to run.
         /// </summary>
-        public void Force(string workKey)
+        public void Force(string jobKey)
         {
-            var def = _work.FirstOrDefault(x => x.WorkKey == workKey);
-            if (def != null)
-            {
-                def.Force();
-            }
+            _work.Force(jobKey);
         }        
     }
 }

@@ -7,7 +7,7 @@ namespace InlineScheduler.Tests.Advanced
 {
     public class When_work_item_is_run
     {
-        WorkItem _item;
+        JobItem _item;
 
         [TestFixtureSetUp]
         public void Given_work_item() 
@@ -24,7 +24,7 @@ namespace InlineScheduler.Tests.Advanced
             // and .. wait until it will complete
             while (true) 
             {
-                if (_item.Status == WorkStatus.Pending) 
+                if (_item.Status == InlineScheduler.Advanced.JobStatus.Pending) 
                 {
                     break;
                 }
@@ -35,7 +35,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_spending() 
         {
-            _item.Status.Should().Be(InlineScheduler.Advanced.WorkStatus.Pending);                       
+            _item.Status.Should().Be(InlineScheduler.Advanced.JobStatus.Pending);                       
         }
 
         [Test]

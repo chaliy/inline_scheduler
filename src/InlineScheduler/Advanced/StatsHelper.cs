@@ -7,24 +7,24 @@ namespace InlineScheduler.Advanced
 {
     public static class StatsHelper
     {
-        public static OveralStats GatherOveralStatistics2(IEnumerable<WorkItem> work)
+        public static OveralStats GatherOveralStatistics2(IEnumerable<JobItem> work)
         {           
             var jobs = work                
                 .Select(x => new
                 {                    
-                    CurrentStatus = (JobStatus)x.Status                    
+                    CurrentStatus = (InlineScheduler.JobStatus)x.Status                    
                 }).ToList();
 
             return new OveralStats
             {
-                PendingJobs = jobs.Count(x => x.CurrentStatus == JobStatus.Pending),
-                RunningJobs = jobs.Count(x => x.CurrentStatus == JobStatus.Running),
-                ScheduledJobs = jobs.Count(x => x.CurrentStatus == JobStatus.Scheduled),
+                PendingJobs = jobs.Count(x => x.CurrentStatus == InlineScheduler.JobStatus.Pending),
+                RunningJobs = jobs.Count(x => x.CurrentStatus == InlineScheduler.JobStatus.Running),
+                ScheduledJobs = jobs.Count(x => x.CurrentStatus == InlineScheduler.JobStatus.Scheduled),
                 JobsCount = jobs.Count
             };
         }
 
-        public static List<MinimalJobStats> GatherCurrentJobs(WorkBag work, string filter)
+        public static List<MinimalJobStats> GatherCurrentJobs(IEnumerable<JobItem> work, string filter)
         {
             return work
                 .Reverse()
@@ -34,7 +34,7 @@ namespace InlineScheduler.Advanced
                     {
                         return true;
                     }
-                    if (filter == "running" && x.Status == WorkStatus.Running) 
+                    if (filter == "running" && x.Status == JobStatus.Running) 
                     {
                         return true;
                     }
@@ -46,27 +46,27 @@ namespace InlineScheduler.Advanced
                 })
                 .Select(x => new MinimalJobStats
                 {
-                    WorkKey = x.WorkKey,
+                    JobKey = x.JobKey,
                     Description = x.Description,
-                    CurrentStatus = (JobStatus)x.Status,
+                    CurrentStatus = (InlineScheduler.JobStatus)x.Status,
                     Health = GatherJobHealth(x),
                     Report = GatherJobReport(x)
                 }).ToList();
         }
 
-        private static string GatherJobReport(WorkItem workItem)
+        private static string GatherJobReport(JobItem jobItem)
         {
-            if (workItem.PreviousRuns.Count == 0)
+            if (jobItem.PreviousRuns.Count == 0)
             {
                 return "N/A";
             }
 
             var message = new StringBuilder();
 
-            var average = Math.Round(workItem.PreviousRuns.Average(x => (x.Completed - x.Started).TotalSeconds), 2);
+            var average = Math.Round(jobItem.PreviousRuns.Average(x => (x.Completed - x.Started).TotalSeconds), 2);
             message.AppendLine("Average execution time: " + average + "s.");
 
-            var failedRuns = workItem.PreviousRuns.Where(x => x.Result == WorkRunResult.Failure).ToList();
+            var failedRuns = jobItem.PreviousRuns.Where(x => x.Result == JobRunResult.Failure).ToList();
             if (failedRuns.Count != 0)
             {
                 message.AppendLine("Job failed at least " + failedRuns.Count + " times.");
@@ -75,22 +75,22 @@ namespace InlineScheduler.Advanced
             return message.ToString();
         }
 
-        private static JobHealth GatherJobHealth(WorkItem x)
+        private static JobHealth GatherJobHealth(JobItem x)
         {
-            return x.PreviousRuns.Any(xx => xx.Result == WorkRunResult.Failure) 
+            return x.PreviousRuns.Any(xx => xx.Result == JobRunResult.Failure) 
                 ? JobHealth.Bad 
                 : JobHealth.Good;
         }
 
-        public static SchedulerJobStats GatherJobStats(WorkBag work, string workKey)
+        public static SchedulerJobStats GatherJobStats(IEnumerable<JobItem> work, string workKey)
         {
             return work
-                .Where(x => x.WorkKey == workKey)
+                .Where(x => x.JobKey == workKey)
                 .Select(x => new SchedulerJobStats
                 {
-                    WorkKey = x.WorkKey,
+                    JobKey = x.JobKey,
                     Description = x.Description,
-                    CurrentStatus = (JobStatus) x.Status,
+                    CurrentStatus = (InlineScheduler.JobStatus) x.Status,
                     LastRunStarted = x.LastStart,
                     LastRunCompleted = x.LastComplete,
                     PreviousRuns = x.PreviousRuns.Select(xx => new SchedulerJobRunStats

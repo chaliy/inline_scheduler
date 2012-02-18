@@ -5,7 +5,7 @@ namespace InlineScheduler.Advanced
 {
     public interface ISchedulerContext
     {
-        DateTime CurrentTime { get; }        
+        DateTime GetCurrentTime();
         int GetNextRandom(int from, int to);
 
         IStateProvider State { get; }

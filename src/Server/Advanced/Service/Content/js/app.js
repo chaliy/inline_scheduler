@@ -66,7 +66,7 @@
     if (jobIdFind) {
       return self.get("Stats/Job/" + jobIdFind + "/?v=1", function(s) {
         s.force = function() {
-          return self.force(s.WorkKey);
+          return self.force(s.JobKey);
         };
         self.currentPage("job");
         return self.selectedJob(s);
@@ -89,7 +89,7 @@
         self.currentPage("list");
         return self.currentJobs($.map(s.CurrentJobs, function(j) {
           j.force = function() {
-            return self.force(j.WorkKey);
+            return self.force(j.JobKey);
           };
           j.Report = j.Report.replace(/\r\n/g, "<br/>");
           return j;

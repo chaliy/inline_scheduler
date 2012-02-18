@@ -46,19 +46,20 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\JobDefinition.cs" />
     <Compile Include="Advanced\ISchedulerContext.cs" />
     <Compile Include="Advanced\DefaultSchedulerContext.cs" />
     <Compile Include="Advanced\State\TempFolderStateProvider.cs" />
     <Compile Include="Advanced\State\IStateProvider.cs" />
     <Compile Include="Advanced\State\MemoryStateProvider.cs" />
     <Compile Include="Advanced\State\WorkState.cs" />
-    <Compile Include="Advanced\WorkItemFactory.cs" />
-    <Compile Include="Advanced\WorkRunResult.cs" />
-    <Compile Include="Advanced\WorkRun.cs" />
+    <Compile Include="Advanced\JobItemFactory.cs" />
+    <Compile Include="Advanced\JobRunResult.cs" />
+    <Compile Include="Advanced\JobRun.cs" />
     <Compile Include="Advanced\StatsHelper.cs" />
-    <Compile Include="Advanced\WorkBag.cs" />
-    <Compile Include="Advanced\WorkItem.cs" />
-    <Compile Include="Advanced\WorkStatus.cs" />
+    <Compile Include="Advanced\JobManager.cs" />
+    <Compile Include="Advanced\JobItem.cs" />
+    <Compile Include="Advanced\JobStatus.cs" />
     <Compile Include="JobHealth.cs" />
     <Compile Include="SchedulerStats.cs" />
     <Compile Include="MinimalJobStats.cs" />
@@ -69,11 +70,13 @@
     <Compile Include="SchedulerJobRunStats.cs" />
     <Compile Include="SchedulerJobStats.cs" />
     <Compile Include="JobStatus.cs" />
+    <Compile Include="Schedules.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="InlineScheduler.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

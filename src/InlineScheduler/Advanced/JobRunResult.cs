@@ -1,6 +1,6 @@
 ﻿namespace InlineScheduler.Advanced
 {
-    public enum WorkRunResult
+    public enum JobRunResult
     {
         Undefined,
         Success,

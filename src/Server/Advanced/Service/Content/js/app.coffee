@@ -48,7 +48,7 @@ ko.dependentObservable ->
     jobIdFind = self.selectedJobId()
     if (jobIdFind)
 	    self.get("Stats/Job/#{jobIdFind}/?v=1", (s) -> 
-            s.force = -> self.force(s.WorkKey)
+            s.force = -> self.force(s.JobKey)
             self.currentPage("job")
             self.selectedJob(s))
     else
@@ -67,7 +67,7 @@ ko.dependentObservable ->
                 # Data
                 self.currentPage("list")
                 self.currentJobs($.map(s.CurrentJobs, (j) ->
-                                        j.force = -> self.force(j.WorkKey)
+                                        j.force = -> self.force(j.JobKey)
                                         j.Report = j.Report.replace(/\r\n/g, "<br/>")
                                         j ))
             )
