@@ -13,8 +13,9 @@ namespace InlineScheduler.Advanced
         JobStatus _status;
         DateTime? _lastStartTime;
         DateTime? _lastCompleteTime;
-        readonly DateTime _created;
         DateTime? _nextTime;
+
+        readonly DateTime _created;        
         readonly List<JobRun> _previousRuns = new List<JobRun>();
 
         public JobItem(ISchedulerContext context, JobDefinition definition, WorkState presavedState = null)
@@ -93,10 +94,10 @@ namespace InlineScheduler.Advanced
             _nextTime = _definition.Schedule.NextExecution(this, _context);            
             if (_status == JobStatus.Pending)
             {
-                if (_nextTime != null && _nextTime <= _context.GetCurrentTime())
+                if (_nextTime != null && _context.GetCurrentTime().WithInMinute(_nextTime))
                 {
                     _status = JobStatus.Scheduled;
-                }                
+                }
             }
 
             if (_previousRuns.Count > 5) 

@@ -48,6 +48,11 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Advanced\DailyJobSchedule.cs" />
+    <Compile Include="Advanced\DateTimeExtensions.cs" />
+    <Compile Include="Advanced\IJobSchedule.cs" />
+    <Compile Include="Advanced\IJobState.cs" />
+    <Compile Include="Advanced\IntervalJobSchedule.cs" />
     <Compile Include="Advanced\JobDefinition.cs" />
     <Compile Include="Advanced\ISchedulerContext.cs" />
     <Compile Include="Advanced\DefaultSchedulerContext.cs" />
@@ -61,7 +66,6 @@
     <Compile Include="Advanced\StatsHelper.cs" />
     <Compile Include="Advanced\JobManager.cs" />
     <Compile Include="Advanced\JobItem.cs" />
-    <Compile Include="Advanced\JobStatus.cs" />
     <Compile Include="JobHealth.cs" />
     <Compile Include="SchedulerStats.cs" />
     <Compile Include="MinimalJobStats.cs" />

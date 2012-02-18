@@ -8,8 +8,7 @@ namespace InlineScheduler
 {
     public class Scheduler
     {
-        private readonly JobManager _work;
-        private readonly JobItemFactory _itemFactory;        
+        private readonly JobManager _work;        
         private readonly DateTime _sartTime;
 
         private bool _stopped;
@@ -19,8 +18,7 @@ namespace InlineScheduler
         public Scheduler(ISchedulerContext context = null)
         {
             context = context ?? new DefaultSchedulerContext();
-            _work = new JobManager(context);
-            _itemFactory = new JobItemFactory(context);
+            _work = new JobManager(context);            
             _stopped = true;
             _sartTime = DateTime.Now;
             

@@ -9,6 +9,14 @@ namespace InlineScheduler.Tests.Advanced
     {        
     }
 
+    class TestJobState : IJobState
+    {
+        public JobStatus Status { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime? LastStart { get; set; }
+        public DateTime? LastComplete { get; set; }
+    }
+
     class TestSchedulerContext : ISchedulerContext
     {
         DateTime _currentTime;
@@ -44,7 +52,12 @@ namespace InlineScheduler.Tests.Advanced
         internal void MoveToNow()
         {
             _currentTime = DateTime.Now;
-        }        
+        }
+
+        internal void SetTodayTime(TimeSpan timeSpan)
+        {
+            _currentTime = DateTime.Now.Date.Add(timeSpan);
+        }
     }
 
     class WorkItemFactory
