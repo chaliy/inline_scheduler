@@ -11,3 +11,4 @@ _ReSharper.*
 *.vs10x
 *.t4properties
 InlineScheduler.crunchsolution.cache
+packages
