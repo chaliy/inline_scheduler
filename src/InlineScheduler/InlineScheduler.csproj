@@ -75,7 +75,6 @@
     <Compile Include="Schedules.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="InlineScheduler.nuspec" />
   </ItemGroup>
   <ItemGroup />
