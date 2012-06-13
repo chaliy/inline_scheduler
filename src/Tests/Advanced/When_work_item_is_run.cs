@@ -24,7 +24,7 @@ namespace InlineScheduler.Tests.Advanced
             // and .. wait until it will complete
             while (true) 
             {
-                if (_item.Status == InlineScheduler.Advanced.JobStatus.Pending) 
+                if (_item.Status == JobStatus.Pending) 
                 {
                     break;
                 }
@@ -35,7 +35,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_spending() 
         {
-            _item.Status.Should().Be(InlineScheduler.Advanced.JobStatus.Pending);                       
+            _item.Status.Should().Be(JobStatus.Pending);                       
         }
 
         [Test]

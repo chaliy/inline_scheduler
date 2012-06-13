@@ -23,7 +23,7 @@ namespace InlineScheduler.Tests.Advanced
         [Test]
         public void Should_be_pending() 
         {
-            _item.Status.Should().Be(InlineScheduler.Advanced.JobStatus.Pending);                       
+            _item.Status.Should().Be(JobStatus.Pending);                       
         }
     }
 }
