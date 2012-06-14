@@ -24,12 +24,13 @@ namespace InlineScheduler.Tests.Advanced
 
             // Force workitem to reschedule            
             _item.UpdateState();
+            //Console.WriteLine("bo ya:" + _item.Status);
         }
 
         [Test]
         public void Should_be_scheduled() 
         {
-            _item.Status.Should().Be(InlineScheduler.Advanced.JobStatus.Scheduled);                       
+            _item.Status.Should().Be(JobStatus.Scheduled);
         }
     }
 }
