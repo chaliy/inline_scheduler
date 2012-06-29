@@ -94,7 +94,7 @@ namespace InlineScheduler.Advanced
             _nextTime = _definition.Schedule.NextExecution(this, _context);            
             if (_status == JobStatus.Pending)
             {
-                if (_nextTime != null && _context.GetCurrentTime().WithInMinute(_nextTime))
+                if (_nextTime != null && _context.GetCurrentTime() >=_nextTime)
                 {
                     _status = JobStatus.Scheduled;
                 }
