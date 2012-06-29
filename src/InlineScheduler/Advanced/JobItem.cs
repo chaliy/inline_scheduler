@@ -77,6 +77,10 @@ namespace InlineScheduler.Advanced
                 }
 
                 _previousRuns.Add(run);
+
+                var newWorkState = new WorkState(_lastCompleteTime.Value);
+
+                _context.State.Store(_definition.JobKey, newWorkState);
             });                         
         }
 
@@ -104,6 +108,6 @@ namespace InlineScheduler.Advanced
             {
                 _previousRuns.RemoveRange(0, _previousRuns.Count - 5);
             }
-        }        
+        }
     }
 }

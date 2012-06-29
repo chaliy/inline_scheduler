@@ -66,6 +66,7 @@
     <Compile Include="Advanced\State\When_save_work_item_state.cs" />
     <Compile Include="Advanced\When_daily_schedule_.cs" />
     <Compile Include="Advanced\When_do_some_work_items.cs" />
+    <Compile Include="Advanced\When_IStateProvider_is_used.cs" />
     <Compile Include="Advanced\When_schedule_some_work.cs" />
     <Compile Include="Advanced\When_gather_statistics.cs" />
     <Compile Include="Advanced\When_work_item_has_not_run_since_before_interval.cs" />
