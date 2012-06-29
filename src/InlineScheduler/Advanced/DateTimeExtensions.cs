@@ -6,7 +6,8 @@ namespace InlineScheduler.Advanced
     {
         public static bool WithInMinute(this DateTime @this, DateTime? other)
         {
-            return other < @this.AddMinutes(1);
+            return other > @this.AddMinutes(-1)
+                   && other < @this.AddMinutes(1);
         }
     }
 }
