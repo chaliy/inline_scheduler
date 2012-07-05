@@ -13,5 +13,9 @@ namespace InlineScheduler
         public DateTime? LastRunCompleted { get; set; }
 
         public List<SchedulerJobRunStats> PreviousRuns { get; set; }
+
+        public override string ToString() {
+            return "JobKey: " + JobKey + " Status: " + CurrentStatus + " LastRunStarted: " + LastRunStarted + " LastRunCompleted: " + LastRunCompleted + " PreviousRuns Count: " + PreviousRuns.Count;
+        } 
     }    
 }
