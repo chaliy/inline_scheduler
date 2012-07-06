@@ -77,6 +77,10 @@ namespace InlineScheduler.Advanced
                 }
 
                 _previousRuns.Add(run);
+
+                var newWorkState = new WorkState(_lastCompleteTime.Value);
+
+                _context.State.Store(_definition.JobKey, newWorkState);
             });                         
         }
 
@@ -94,7 +98,7 @@ namespace InlineScheduler.Advanced
             _nextTime = _definition.Schedule.NextExecution(this, _context);            
             if (_status == JobStatus.Pending)
             {
-                if (_nextTime != null && _context.GetCurrentTime().WithInMinute(_nextTime))
+                if (_nextTime != null && _context.GetCurrentTime() >=_nextTime)
                 {
                     _status = JobStatus.Scheduled;
                 }
@@ -104,6 +108,6 @@ namespace InlineScheduler.Advanced
             {
                 _previousRuns.RemoveRange(0, _previousRuns.Count - 5);
             }
-        }        
+        }
     }
 }
