@@ -18,6 +18,11 @@ namespace InlineScheduler.Advanced
                 return null; // Have no clue
             }
 
+            if (state.LastComplete != null) 
+            {
+                return state.LastComplete.Value.Date.AddDays(1).Add(_dayTime);
+            }
+
             return context.GetCurrentTime().Date.Add(_dayTime);
         }
     }
