@@ -29,7 +29,7 @@ namespace InlineScheduler.Tests.Advanced
             _item.Run();
 
             // and .. wait until it will complete
-            Wait.Unitl(() => _item.Status == JobStatus.Pending);
+            Wait.Until(() => _item.Status == JobStatus.Pending);
         }
 
         [Test]
