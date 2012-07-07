@@ -58,6 +58,11 @@ namespace InlineScheduler.Tests.Advanced
         {
             _currentTime = DateTime.Now.Date.Add(timeSpan);
         }
+
+        internal void MoveForwardNDays(int i) 
+        {
+            _currentTime = DateTime.Now.AddDays(i);
+        }
     }
 
     class WorkItemFactory

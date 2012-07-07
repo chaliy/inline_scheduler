@@ -30,7 +30,7 @@ namespace InlineScheduler.Tests.Advanced
 
             _scheduler.Start();
 
-            Wait.Unitl(() => _scheduler.GatherOveralStats().RunningJobs + _scheduler.GatherOveralStats().ScheduledJobs == 0);
+            Wait.Until(() => _scheduler.GatherOveralStats().RunningJobs + _scheduler.GatherOveralStats().ScheduledJobs == 0);
         }
 
         [TestFixtureTearDown]

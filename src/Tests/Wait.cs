@@ -5,9 +5,9 @@ namespace InlineScheduler.Tests
 {
     static class Wait
     {
-        public static void Unitl(Func<bool> check)
+        public static void Until(Func<bool> check, int tenthsofsecondstowait)
         {
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < tenthsofsecondstowait; i++)
             {
                 if (check())
                 {
@@ -15,6 +15,11 @@ namespace InlineScheduler.Tests
                 }
                 Thread.Sleep(100);
             }
+        }
+
+        public static void Until(Func<bool> check) 
+        {
+            Until(check, 1000);
         }
 
         public static void For(TimeSpan timeOut)
