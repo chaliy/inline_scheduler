@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InlineScheduler", "src\InlineScheduler\InlineScheduler.csproj", "{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}"
