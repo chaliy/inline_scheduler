@@ -1,8 +1,5 @@
 ﻿using System.Threading;
-using FluentAssertions.Assertions;
 using NUnit.Framework;
-using InlineScheduler.Advanced;
-using System.Threading.Tasks;
 using System;
 using FluentAssertions;
 
@@ -22,8 +19,8 @@ namespace InlineScheduler.Tests.Advanced
             _scheduler = new Scheduler(ctx);
 
             _scheduler.Schedule("Foo1", () => { _foo1WorkDone = true; }, TimeSpan.FromMinutes(10));
-            _scheduler.Schedule("Foo2", () => { _foo2WorkDone = true; }, TimeSpan.FromMinutes(10));                       
- 
+            _scheduler.Schedule("Foo2", () => { _foo2WorkDone = true; }, TimeSpan.FromMinutes(10));
+
             // Lest ensure that all workitems 
             // are applicable for schedule
             ctx.MoveToTommorrow();
