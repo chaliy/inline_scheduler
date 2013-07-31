@@ -3,12 +3,11 @@ using System.Web.Hosting;
 using InlineScheduler.Server.Utility;
 
 namespace InlineScheduler.Server.Advanced.Hosting
-{    
+{
     public class HostingRegistration : IRegisteredObject
     {
         // For more details http://haacked.com/archive/2011/10/16/the-dangers-of-implementing-recurring-background-tasks-in-asp-net.aspx    
-
-        private readonly Scheduler _underline;
+        readonly Scheduler _underline;
 
         public HostingRegistration(Scheduler underline)
         {
@@ -25,7 +24,7 @@ namespace InlineScheduler.Server.Advanced.Hosting
             HostingEnvironment.UnregisterObject(this);
         }
 
-        public static void Register(Scheduler scheduler) 
+        public static void Register(Scheduler scheduler)
         {
             HostingEnvironment.RegisterObject(new HostingRegistration(scheduler));
         }
