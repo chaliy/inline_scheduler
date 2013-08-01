@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
+using System.Threading;
+using System.Threading.Tasks;
 using InlineScheduler;
 using InlineScheduler.Server;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace SimpleWebExample
 {
@@ -25,7 +20,7 @@ namespace SimpleWebExample
                 {
                     return Task.Factory.StartNew(() =>
                     {
-                        if (id == "Foo3") 
+                        if (id == "Foo3")
                         {
                             throw new InvalidOperationException("With love from Scheduler");
                         }
@@ -39,7 +34,7 @@ namespace SimpleWebExample
                 }, TimeSpan.FromMinutes(3), description: "Do some stupid work with " + id);
             }
 
-            InlineSchedulerServer.Init(Instance);
-        }        
+            InlineSchedulerWebHost.Init(Instance);
+        }
     }
 }

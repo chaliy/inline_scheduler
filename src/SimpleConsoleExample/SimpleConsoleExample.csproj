@@ -11,7 +11,8 @@
     <RootNamespace>SimpleConsoleExample</RootNamespace>
     <AssemblyName>SimpleConsoleExample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -51,9 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\InlineScheduler\InlineScheduler.csproj">
-      <Project>{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}</Project>
+      <Project>{efa8dcc8-0286-4d52-8f11-66495b4f9dc4}</Project>
       <Name>InlineScheduler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

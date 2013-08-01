@@ -41,8 +41,20 @@ Example
 
 Installation
 ============
-	
+
 [TBD]
+
+Upgrade
+=======
+
+Instead of
+
+    ProcessingScheduler.Init(scheduler);
+
+Use
+
+    InlineSchedulerWebHost.Init(scheduler);
+
 	
 License
 =======

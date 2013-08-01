@@ -10,6 +10,7 @@ _ReSharper.*
 ~$*
 *.vs10x
 *.t4properties
-*.ncrunchsolution.cache
-*.ncrunchsolution
+_NCrunch*
+*.ncrunch*
 packages
+*.nupkg
