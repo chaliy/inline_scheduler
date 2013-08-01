@@ -110,6 +110,7 @@
     <None Include="InlineScheduler.nuspec" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Server\Advanced\Service\Content\js\app.coffee" />
+    <None Include="Server\README.md" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
