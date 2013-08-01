@@ -1,0 +1,1 @@
+.\.nuget\NuGet pack .\src\InlineScheduler\InlineScheduler.csproj -Symbols

@@ -13,3 +13,4 @@ _ReSharper.*
 _NCrunch*
 *.ncrunch*
 packages
+*.nupkg
