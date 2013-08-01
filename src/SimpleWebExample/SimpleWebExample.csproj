@@ -22,6 +22,10 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,10 +77,6 @@
     <ProjectReference Include="..\InlineScheduler\InlineScheduler.csproj">
       <Project>{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}</Project>
       <Name>InlineScheduler</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Server\Server.csproj">
-      <Project>{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}</Project>
-      <Name>Server</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
