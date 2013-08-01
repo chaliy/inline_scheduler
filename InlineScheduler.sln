@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InlineScheduler", "src\InlineScheduler\InlineScheduler.csproj", "{EFA8DCC8-0286-4D52-8F11-66495B4F9DC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "src\Tests\Tests.csproj", "{F2A863EC-DE60-4368-B996-8D6CCA00E618}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleExample", "src\SimpleConsoleExample\SimpleConsoleExample.csproj", "{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "src\Server\Server.csproj", "{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWebExample", "src\SimpleWebExample\SimpleWebExample.csproj", "{C973524E-7D2C-4248-AA77-FB5B9920C86B}"
 EndProject
@@ -59,16 +57,6 @@ Global
 		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|Mixed Platforms.Build.0 = Release|x86
 		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|x86.ActiveCfg = Release|x86
 		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912}.Release|x86.Build.0 = Release|x86
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{00FDACE5-50E2-4BFD-A8C5-229ABAB964CF}.Release|x86.ActiveCfg = Release|Any CPU
 		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C973524E-7D2C-4248-AA77-FB5B9920C86B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -84,7 +72,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C973524E-7D2C-4248-AA77-FB5B9920C86B} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
 		{5BBAA15B-0CD4-4D4D-84B5-DC36F7102912} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
+		{C973524E-7D2C-4248-AA77-FB5B9920C86B} = {9A78ACA0-F995-44C9-98B0-B9602DCFEA9B}
 	EndGlobalSection
 EndGlobal
